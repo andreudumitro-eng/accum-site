@@ -1,5 +1,5 @@
-# accum-site 
-<!DOCTYPE html>
+
+
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
@@ -11,18 +11,49 @@ body {
     color: #222;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
     line-height: 1.6;
-    padding: 0;
     margin: 0;
+    padding: 0;
 }
 .container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 2rem 1.5rem;
 }
-header {
-    text-align: center;
+/* ===== НОВЫЙ HERO БЛОК ===== */
+.hero {
+    background: #2e7d32;
+    color: white;
+    padding: 2.5rem 2rem;
+    border-radius: 24px;
     margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(46,125,50,0.3);
 }
+.hero h1 {
+    font-size: 3.5rem;
+    margin: 0 0 1rem 0;
+    background: none;
+    -webkit-text-fill-color: white;
+    color: white;
+}
+.hero-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+.hero-item {
+    background: rgba(255,255,255,0.1);
+    padding: 1rem;
+    border-radius: 16px;
+    backdrop-filter: blur(5px);
+}
+.hero-item strong {
+    display: block;
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+    color: #ffd700;
+}
+/* ===== ОСТАЛЬНЫЕ СТИЛИ ===== */
 h1 {
     font-size: 3.5rem;
     background: linear-gradient(135deg, #2e7d32, #1b5e20);
@@ -40,7 +71,7 @@ h1 {
     color: #2e7d32;
     margin: 1.5rem 0;
 }
-.graph-card, .feature, .block-section, .security-section, .links {
+.graph-card, .feature, .block-section, .security-section, .links, .roadmap {
     background: #ffffff;
     border-radius: 16px;
     padding: 2rem;
@@ -48,9 +79,8 @@ h1 {
     box-shadow: 0 4px 20px rgba(0,0,0,0.08);
     border: 1px solid #eaeaea;
 }
-.graph-card h2, .feature h3, .security-section h2, .block-section h2 {
+.graph-card h2, .feature h3, .security-section h2 {
     color: #2e7d32;
-    margin-bottom: 1rem;
 }
 .features {
     display: grid;
@@ -59,14 +89,10 @@ h1 {
     margin: 3rem 0;
 }
 .feature {
-    margin: 0;
     transition: transform 0.2s;
 }
 .feature:hover {
     transform: translateY(-5px);
-}
-.feature p {
-    color: #444;
 }
 canvas {
     width: 100%;
@@ -75,26 +101,14 @@ canvas {
     border-radius: 12px;
     margin-top: 1rem;
 }
-.graph-caption {
-    text-align: center;
-    color: #666;
-    font-size: 0.9rem;
-    margin-top: 0.5rem;
-}
 .code {
     background: #f0f0f0;
     padding: 1rem;
     border-radius: 8px;
-    font-family: 'Courier New', monospace;
+    font-family: monospace;
     overflow-x: auto;
     margin: 1rem 0;
     border-left: 4px solid #2e7d32;
-}
-.footer {
-    text-align: center;
-    padding: 2rem 0;
-    border-top: 1px solid #ddd;
-    color: #666;
 }
 a.button {
     display: inline-block;
@@ -124,118 +138,139 @@ a.button.outline:hover {
     padding: 1rem;
     background: #ffffff;
     border-radius: 12px;
-    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
 }
-.contacts a {
+.footer {
+    text-align: center;
+    padding: 2rem 0;
+    border-top: 1px solid #ddd;
+    color: #666;
+}
+.roadmap-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px,1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+.roadmap-item {
+    background: #f0f0f0;
+    padding: 1rem;
+    border-radius: 12px;
+    text-align: center;
+}
+.roadmap-date {
+    font-weight: 700;
     color: #2e7d32;
-    text-decoration: none;
 }
 </style>
 </head>
 <body>
 <div class="container">
-<header>
-    <h1>ACCUM</h1>
-    <div class="subtitle">The First Fair Proof-of-Work Blockchain</div>
-    <div class="tagline">Bitcoin is a lottery. ACCUM is a salary.</div>
-</header>
 
-<div class="graph-card">
-    <h2>📈 Concave Rewards vs Linear</h2>
-    <canvas id="rewardChart"></canvas>
-    <div class="graph-caption">Зелёная — логарифмическая модель ACCUM, пунктир — линейная Bitcoin.</div>
+<!-- ===== НОВЫЙ HERO БЛОК (ИНФОРМАТИВНЫЙ) ===== -->
+<div class="hero">
+    <h1>⚡ ACCUM</h1>
+    <p style="font-size:1.5rem; margin-bottom:1.5rem;">The First Fair Proof-of-Work Blockchain</p>
+    <p style="font-size:1.2rem; max-width:800px;">Bitcoin — лотерея. ACCUM — зарплата. Каждый майнер получает награду за каждый блок.</p>
+    
+    <div class="hero-grid">
+        <div class="hero-item">
+            <strong>💰 Монета</strong>
+            $ACM · 21 млн · Без премайна
+        </div>
+        <div class="hero-item">
+            <strong>⚙️ Механизм</strong>
+            Accumulative Mining + Concave Rewards
+        </div>
+        <div class="hero-item">
+            <strong>🔬 Статус</strong>
+            Живой тестнет · 2 ноды · Блоки идут
+        </div>
+        <div class="hero-item">
+            <strong>🛡️ Безопасность</strong>
+            PoCI (защита от Sybil) · P2P · Ultra-Light Nodes
+        </div>
+    </div>
 </div>
 
+<!-- ===== ГРАФИК ===== -->
+<div class="graph-card">
+    <h2>📈 Логарифмические награды (Concave Rewards)</h2>
+    <canvas id="rewardChart"></canvas>
+</div>
+
+<!-- ===== 5 ФИЧ ===== -->
 <div class="features">
     <div class="feature">
-        <h3>Accumulative Mining</h3>
+        <h3>⛏️ Accumulative Mining</h3>
         <p>Каждый майнер получает награду за каждый блок. Без лотерей.</p>
     </div>
     <div class="feature">
-        <h3>Concave Rewards</h3>
+        <h3>📉 Concave Rewards</h3>
         <p>Логарифмическая кривая делает 51% атаку экономически невыгодной.</p>
     </div>
     <div class="feature">
-        <h3>PoCI</h3>
+        <h3>🆔 PoCI</h3>
         <p>Proof-of-Contribution-and-Identity — защита от Sybil-атак.</p>
     </div>
     <div class="feature">
-        <h3>Shard Streams</h3>
+        <h3>💧 Shard Streams</h3>
         <p>Фьючерсы на хешрейт для мгновенной ликвидности майнеров.</p>
     </div>
     <div class="feature">
-        <h3>Ultra-Light Nodes</h3>
+        <h3>📱 Ultra-Light Nodes</h3>
         <p>Полная верификация с ~50 МБ состояния, работает на телефонах.</p>
     </div>
 </div>
 
-<!-- БЛОК ЖИВОГО ТЕСТНЕТА (добавил) -->
+<!-- ===== СТАТУС ТЕСТНЕТА ===== -->
 <div class="security-section">
-    <h2>✅ Live Testnet (Q1 2026)</h2>
-    <p>Две независимые ноды работают в реальной сети, производя блоки и обрабатывая транзакции.</p>
+    <h2>✅ Живой тестнет (Q1 2026)</h2>
     <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:1rem; margin:1.5rem 0;">
-        <div style="background:#f0f0f0; padding:1rem; border-radius:8px; text-align:center;">
+        <div style="background:#f0f0f0; padding:1rem; border-radius:12px; text-align:center;">
             <div style="font-size:2rem; font-weight:700; color:#2e7d32;">62</div>
-            <div style="font-size:0.9rem; color:#555;">Блоков</div>
+            <div>Блоков</div>
         </div>
-        <div style="background:#f0f0f0; padding:1rem; border-radius:8px; text-align:center;">
+        <div style="background:#f0f0f0; padding:1rem; border-radius:12px; text-align:center;">
             <div style="font-size:2rem; font-weight:700; color:#2e7d32;">18</div>
-            <div style="font-size:0.9rem; color:#555;">Транзакций</div>
+            <div>Транзакций</div>
         </div>
-        <div style="background:#f0f0f0; padding:1rem; border-radius:8px; text-align:center;">
-            <div style="font-size:2rem; font-weight:700; color:#2e7d32;">100%</div>
-            <div style="font-size:0.9rem; color:#555;">Синхронизация</div>
+        <div style="background:#f0f0f0; padding:1rem; border-radius:12px; text-align:center;">
+            <div style="font-size:2rem; font-weight:700; color:#2e7d32;">2</div>
+            <div>Ноды в сети</div>
         </div>
     </div>
-    <ul style="margin-left:1.2rem;">
-        <li>✅ Две ноды (порты 12345, 12346) работают непрерывно</li>
-        <li>✅ Блоки производятся каждые 60 секунд</li>
-        <li>✅ Тестовые переводы по 10 ACCUM проходят в сеть</li>
-        <li>✅ Доступны логи и демо по запросу</li>
-    </ul>
 </div>
 
+<!-- ===== ЭКОНОМИЧЕСКАЯ МОДЕЛЬ ===== -->
 <div class="security-section">
-    <h2>🔐 Security & Economic Model</h2>
-    
-    <h3>1. Baseline (Linear PoW)</h3>
-    <p>В Bitcoin ожидаемая награда пропорциональна доле хешрейта:</p>
-    <div class="code">E = α · B</div>
-    <p>ΔRevenue ∝ Δα — майнеры имеют стимул концентрировать мощность.</p>
-
-    <h3>2. ACCUM Reward Function</h3>
-    <p>ACCUM использует вогнутую кривую:</p>
-    <div class="code">R(n) = k · log(1 + n)</div>
-    <p>Производная:</p>
-    <div class="code">dR/dn = k / (1 + n)</div>
+    <h2>🔐 Экономическая модель</h2>
+    <div class="code">E = α · B (Bitcoin)</div>
+    <div class="code">R(n) = k · log(1 + n) (ACCUM)</div>
     <p>Стимул к доминированию сети уменьшается с ростом n.</p>
-
-    <h3>3. Majority Expansion Comparison</h3>
-    <p>В линейной PoW: ΔRevenue ∝ Δα</p>
-    <p>В ACCUM: ΔRevenue ≈ k · log((1 + α₂T)/(1 + α₁T))</p>
-    <p>Стоимость хешрейта остаётся линейной: Cost ∝ αH·C</p>
-    <p>Если marginal cost > marginal reward — дальнейшее доминирование невыгодно.</p>
 </div>
 
-<div class="block-section">
-    <h2>📦 Example Block Reward Calculation</h2>
-    <p>Для 50 блоков, k = 50 монет, ACCUM начисляет:</p>
-    <div class="code">
-R(n) = 50 · log(1 + n)  
-n = номер блока (0,1,...,49)
+<!-- ===== ROADMAP (БУДУЩЕЕ) ===== -->
+<div class="roadmap">
+    <h2>🗺️ Дорожная карта</h2>
+    <div class="roadmap-grid">
+        <div class="roadmap-item"><span class="roadmap-date">Q3 2026</span><br>Публичный тестнет</div>
+        <div class="roadmap-item"><span class="roadmap-date">Q4 2026</span><br>Аудит безопасности</div>
+        <div class="roadmap-item"><span class="roadmap-date">Q1 2027</span><br>Mainnet Launch</div>
+        <div class="roadmap-item"><span class="roadmap-date">Q2 2027</span><br>Shard Streams (DeFi)</div>
     </div>
 </div>
 
+<!-- ===== ССЫЛКИ ===== -->
 <div class="links">
-    <h2>📚 Source Code & Whitepaper</h2>
+    <h2>Исходный код и whitepaper</h2>
     <a href="https://github.com/andreudumitro-eng/ACCUM" class="button">📦 GitHub</a>
     <a href="https://github.com/andreudumitro-eng/ACCUM/blob/main/whitepaper/en/ACCUM_whitepaper_v2.0_en.md" class="button outline">📄 Whitepaper (EN)</a>
     <a href="https://github.com/andreudumitro-eng/ACCUM/blob/main/whitepaper/ru/ACCUM_whitepaper_v2.0_ru.md" class="button outline">📄 Whitepaper (RU)</a>
 </div>
 
+<!-- ===== КОНТАКТЫ ===== -->
 <div class="contacts">
     <p>📧 <strong>andreudumitro@gmail.com</strong> | 🐦 <a href="https://twitter.com/Andredumitro">@Andredumitro</a></p>
-    <p style="margin-top:0.5rem; color:#666;">По вопросам сотрудничества и демо — пишите на email.</p>
 </div>
 
 <footer class="footer">
@@ -253,7 +288,6 @@ function drawChart() {
     const gw = w - pad.left - pad.right;
     const gh = h - pad.top - pad.bottom;
 
-    // Сетка
     ctx.strokeStyle = "#ddd";
     ctx.lineWidth = 0.5;
     for (let i = 0; i <= 5; i++) {
@@ -264,7 +298,6 @@ function drawChart() {
         ctx.stroke();
     }
 
-    // Линейная (Bitcoin)
     ctx.strokeStyle = "#777";
     ctx.lineWidth = 2;
     ctx.setLineDash([5, 3]);
@@ -277,7 +310,6 @@ function drawChart() {
     }
     ctx.stroke();
 
-    // Логарифмическая (ACCUM)
     ctx.strokeStyle = "#2e7d32";
     ctx.lineWidth = 3;
     ctx.setLineDash([]);
@@ -292,26 +324,16 @@ function drawChart() {
     }
     ctx.stroke();
 
-    // Подписи осей
-    ctx.fillStyle = "#666";
-    ctx.font = "12px Arial";
-    ctx.textAlign = "right";
-    ctx.fillText("Reward", pad.left - 10, pad.top + 10);
-    ctx.textAlign = "center";
-    ctx.fillText("Hashrate share →", w/2, h - 8);
-
-    // Легенда
     ctx.fillStyle = "#2e7d32";
     ctx.fillRect(w - 130, pad.top + 5, 12, 12);
     ctx.fillStyle = "#000";
     ctx.font = "12px Arial";
     ctx.textAlign = "left";
-    ctx.fillText("ACCUM (log)", w - 110, pad.top + 16);
+    ctx.fillText("ACCUM", w - 110, pad.top + 16);
 
     ctx.fillStyle = "#777";
     ctx.fillRect(w - 130, pad.top + 30, 12, 12);
-    ctx.fillStyle = "#000";
-    ctx.fillText("Bitcoin (linear)", w - 110, pad.top + 41);
+    ctx.fillText("Bitcoin", w - 110, pad.top + 41);
 }
 window.addEventListener('load', drawChart);
 window.addEventListener('resize', drawChart);
