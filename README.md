@@ -1,9 +1,9 @@
-
+<!DOCTYPE html>
 <html lang="ru">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ACCUM — Fair Proof-of-Work Blockchain</title>
+<title>ACCUM — справедливый Proof-of-Work блокчейн</title>
 <style>
   * {
     margin: 0;
@@ -167,13 +167,32 @@
     margin-bottom: 0.8rem;
     color: #2e7d32;
   }
+  .chart-container {
+    position: relative;
+    width: 100%;
+    margin: 1rem 0;
+  }
   canvas {
     width: 100%;
-    height: 280px;
+    height: 300px;
     background: #ffffff;
     border-radius: 20px;
     padding: 1rem;
     box-shadow: inset 0 2px 8px rgba(0,0,0,0.02);
+    display: block;
+  }
+  .tooltip-value {
+    position: absolute;
+    background: #1e293b;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.2s;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    z-index: 100;
   }
   table {
     width: 100%;
@@ -197,14 +216,16 @@
   tr:last-child td {
     border-bottom: none;
   }
-  .code {
+  .code-block {
     background: #1e293b;
     color: #a5d6a5;
-    padding: 1rem;
+    padding: 1.5rem;
     border-radius: 12px;
     font-family: 'JetBrains Mono', monospace;
     overflow-x: auto;
     margin: 1rem 0;
+    font-size: 0.9rem;
+    line-height: 1.4;
   }
   .button {
     display: inline-block;
@@ -267,7 +288,7 @@
       <li><a href="#testnet">Тестнет</a></li>
       <li><a href="#economics">Экономика</a></li>
       <li><a href="#roadmap">Roadmap</a></li>
-      <li><a href="#howto">Майнинг</a></li>
+      <li><a href="#mining-code">Код майнинга</a></li>
       <li><a href="#contribute">Участие</a></li>
       <li><a href="#contacts">Контакты</a></li>
     </ul>
@@ -279,7 +300,7 @@
 <!-- 1. HERO -->
 <section id="hero" class="hero">
   <h1>⚡ ACCUM</h1>
-  <p class="lead">The First Fair Proof-of-Work Blockchain</p>
+  <p class="lead">Первый справедливый Proof-of-Work блокчейн</p>
   <p class="sublead">Bitcoin — лотерея. ACCUM — зарплата. Каждый майнер получает награду за каждый блок.</p>
   <div class="hero-grid">
     <div class="hero-item"><strong>💰 Монета</strong> $ACM · 21 млн · без премайна</div>
@@ -297,19 +318,19 @@
   <p>В основе лежит <strong>Accumulative Mining</strong> с <strong>Concave Rewards</strong> — логарифмическое распределение наград, снижающее мотивацию захвата сети и повышающее безопасность. Проект ориентирован на широкое участие и доступность даже на мобильных устройствах.</p>
 </section>
 
-<!-- ACCUM AT A GLANCE -->
+<!-- КЛЮЧЕВЫЕ ФАКТЫ -->
 <section id="glance" class="section">
-  <h2>⚡ ACCUM AT A GLANCE</h2>
+  <h2>⚡ ACCUM в цифрах</h2>
   <div class="glance-grid">
-    <div class="glance-item"><strong>Fair Launch</strong><br>Февраль 2026 (тестнет)<br><small>no premine</small></div>
+    <div class="glance-item"><strong>Fair Launch</strong><br>Февраль 2026 (тестнет)<br><small>без премайна</small></div>
     <div class="glance-item"><strong>Алгоритм</strong><br>Argon2id<br><small>memory‑hard, ASIC‑resistant</small></div>
     <div class="glance-item"><strong>Консенсус</strong><br>Proof‑of‑Work<br><small>Accumulative + Concave</small></div>
-    <div class="glance-item"><strong>Платформы</strong><br>Windows, Linux, macOS<br><small>RPi, Android (soon)</small></div>
-    <div class="glance-item"><strong>TICKER</strong><br>$ACM</div>
-    <div class="glance-item"><strong>Block time (testnet)</strong><br>~60 секунд</div>
-    <div class="glance-item"><strong>Circulating (testnet)</strong><br>~1050 ACM</div>
-    <div class="glance-item"><strong>MAX SUPPLY</strong><br>21 000 000</div>
-    <div class="glance-item"><strong>Network Status</strong><br>2 ноды · 62 блоков</div>
+    <div class="glance-item"><strong>Платформы</strong><br>Windows, Linux, macOS<br><small>RPi, Android (скоро)</small></div>
+    <div class="glance-item"><strong>Тикер</strong><br>$ACM</div>
+    <div class="glance-item"><strong>Блок (тестнет)</strong><br>~60 секунд</div>
+    <div class="glance-item"><strong>В обращении (тестнет)</strong><br>~1050 ACM</div>
+    <div class="glance-item"><strong>Макс. предложение</strong><br>21 000 000</div>
+    <div class="glance-item"><strong>Статус сети</strong><br>2 ноды · 62 блока</div>
   </div>
 </section>
 
@@ -325,17 +346,20 @@
     <div class="tech-item"><strong>Шардов в блоке</strong><br>20–40 штук</div>
     <div class="tech-item"><strong>Награда за блок</strong><br>50 ACM</div>
     <div class="tech-item"><strong>Платформы</strong><br>Windows, Linux, macOS</div>
-    <div class="tech-item"><strong>Минимальные требования</strong><br>2 ядра, 2 ГБ RAM</div>
+    <div class="tech-item"><strong>Мин. требования</strong><br>2 ядра, 2 ГБ RAM</div>
     <div class="tech-item"><strong>Размер ноды</strong><br>~1–2 МБ (будет < 50 МБ)</div>
   </div>
 </section>
 
-<!-- ГРАФИК НАГРАД -->
+<!-- ГРАФИК НАГРАД (ИНТЕРАКТИВНЫЙ) -->
 <section id="rewards" class="section">
-  <h2>📈 Логарифмические награды (Concave Rewards)</h2>
-  <p><strong>R(n) = k · log(1 + n)</strong>, где <em>n</em> — доля майнера в сети.</p>
+  <h2>📈 Логарифмические награды (наведи мышкой)</h2>
+  <p><strong>Формула:</strong> R(n) = 50 · log₂(1 + n) / log₂(101), где n — доля майнера в сети.</p>
   <p>Производная убывает, что снижает выгоду доминирования и делает 51% атаку экономически невыгодной.</p>
-  <canvas id="rewardChart"></canvas>
+  <div class="chart-container">
+    <canvas id="rewardChart" width="800" height="300"></canvas>
+    <div id="chartTooltip" class="tooltip-value" style="opacity:0;">0</div>
+  </div>
 </section>
 
 <!-- ТАБЛИЦА СРАВНЕНИЯ -->
@@ -344,12 +368,12 @@
   <table>
     <thead><tr><th>Параметр</th><th>Bitcoin</th><th>Kaspa</th><th>Monero</th><th>ACCUM</th></tr></thead>
     <tbody>
-      <tr><td>Reward Model</td><td>Linear Lottery</td><td>Block DAG Linear</td><td>Linear Lottery</td><td>Concave Accumulative</td></tr>
-      <tr><td>Premine</td><td>No</td><td>No</td><td>No</td><td>No</td></tr>
-      <tr><td>Reward per Block</td><td>1 winner</td><td>1 winner</td><td>1 winner</td><td>All participants</td></tr>
-      <tr><td>Sybil Resistance</td><td>None</td><td>None</td><td>None</td><td>PoCI</td></tr>
-      <tr><td>51% Attack Disincentive</td><td>No</td><td>No</td><td>No</td><td>Yes (concave)</td></tr>
-      <tr><td>Ultra‑Light Node</td><td>No</td><td>No</td><td>No</td><td>Yes (~50 MB)</td></tr>
+      <tr><td>Модель наград</td><td>Линейная лотерея</td><td>Block DAG Linear</td><td>Линейная лотерея</td><td>Вогнутая (все получают)</td></tr>
+      <tr><td>Премайн</td><td>Нет</td><td>Нет</td><td>Нет</td><td>Нет</td></tr>
+      <tr><td>Награда за блок</td><td>1 победитель</td><td>1 победитель</td><td>1 победитель</td><td>Все участники</td></tr>
+      <tr><td>Защита от Sybil</td><td>Нет</td><td>Нет</td><td>Нет</td><td>PoCI</td></tr>
+      <tr><td>51% атака</td><td>Выгодна</td><td>Выгодна</td><td>Выгодна</td><td>Экономически невыгодна</td></tr>
+      <tr><td>Ультра‑легкие ноды</td><td>Нет</td><td>Нет</td><td>Нет</td><td>Да (~50 МБ)</td></tr>
     </tbody>
   </table>
 </section>
@@ -359,7 +383,7 @@
   <h2>🔷 5 инноваций ACCUM</h2>
   <div class="features-grid">
     <div class="feature-card"><h3>⛏️ Accumulative Mining</h3><p>Каждый майнер получает награду за каждый блок. Без лотереи.</p></div>
-    <div class="feature-card"><h3>📉 Concave Rewards</h3><p>Логарифмическая кривая делает 51% атаку невыгодной.</p></div>
+    <div class="feature-card"><h3>📉 Вогнутые награды</h3><p>Логарифмическая кривая делает 51% атаку невыгодной.</p></div>
     <div class="feature-card"><h3>🆔 PoCI</h3><p>Многокомпонентная репутация против Sybil-атак.</p></div>
     <div class="feature-card"><h3>💧 Shard Streams</h3><p>Фьючерсы на хешрейт для мгновенной ликвидности.</p></div>
     <div class="feature-card"><h3>📱 Ultra‑Light Nodes</h3><p>Полная верификация ~50 МБ, работает на телефонах.</p></div>
@@ -385,12 +409,12 @@
 <!-- ЭКОНОМИЧЕСКАЯ МОДЕЛЬ -->
 <section id="economics" class="section">
   <h2>🔐 Экономическая модель</h2>
-  <p><strong>Bitcoin (линейная):</strong> E = α·B</p>
-  <p><strong>ACCUM (логарифмическая):</strong> R(n) = k·log(1+n)</p>
+  <p><strong>Bitcoin (линейная):</strong> E = α·B — награда линейно зависит от вложений.</p>
+  <p><strong>ACCUM (логарифмическая):</strong> R(n) = k·log(1+n) — награда растёт медленнее доли.</p>
   <p>С увеличением доли майнера доходы растут, но с убывающей скоростью, уменьшая преимущества доминирования.</p>
 </section>
 
-<!-- ROADMAP -->
+<!-- ДОРОЖНАЯ КАРТА -->
 <section id="roadmap" class="section">
   <h2>🗺️ Дорожная карта</h2>
   <div class="roadmap-grid">
@@ -401,16 +425,40 @@
   </div>
 </section>
 
-<!-- КАК МАЙНИТЬ -->
-<section id="howto" class="section">
-  <h2>⛏️ Как майнить (тестнет)</h2>
-  <ol>
-    <li>Установи Python и <code>argon2-cffi</code></li>
-    <li>Скачай <code>accum.py</code> с GitHub</li>
-    <li>Запусти: <code>python accum.py</code></li>
-    <li>Наблюдай шарды и блоки в консоли</li>
-  </ol>
-  <a href="https://github.com/andreudumitro-eng/ACCUM" class="button">📦 GitHub</a>
+<!-- КОД МАЙНИНГА ДВУХ НОД -->
+<section id="mining-code" class="section">
+  <h2>⛏️ Код майнинга (две ноды)</h2>
+  <p>Ниже представлен упрощённый код, запускающий две ноды, майнинг шардов и обмен блоками.</p>
+  <div class="code-block">
+<pre>import asyncio
+from wallet import Wallet
+from node import P2PNode, Miner
+from db import Database
+
+async def run_node(name, port, db_file, connect_to=None):
+    wallet = Wallet()
+    db = Database(db_file)
+    p2p = P2PNode(port, db, wallet.get_address(), name)
+    await p2p.start()
+    print(f"[{name}] Адрес: {wallet.get_address()}")
+    if connect_to:
+        host, cport = connect_to
+        await p2p.connect_to_peer(host, cport)
+        if name == "Node2":
+            asyncio.create_task(send_test_tx(p2p, wallet))
+    miner = Miner(wallet.get_address(), db, p2p, name)
+    await asyncio.gather(miner.mine(), miner.assemble_blocks())
+
+async def main():
+    await asyncio.gather(
+        run_node("Node1", 12345, "node1.db", None),
+        run_node("Node2", 12346, "node2.db", ("127.0.0.1", 12345))
+    )
+
+if __name__ == "__main__":
+    asyncio.run(main())</pre>
+  </div>
+  <p>Полный код доступен в <a href="https://github.com/andreudumitro-eng/ACCUM" target="_blank" rel="noopener">репозитории GitHub</a>.</p>
 </section>
 
 <!-- УЧАСТИЕ В ПРОЕКТЕ -->
@@ -425,12 +473,12 @@
   <a href="https://github.com/andreudumitro-eng/ACCUM/issues" class="button">📌 GitHub Issues</a>
 </section>
 
-<!-- КОНТАКТЫ -->
+<!-- КОНТАКТЫ И ССЫЛКИ -->
 <section id="contacts" class="section">
   <h2>📚 Исходный код и документы</h2>
   <a href="https://github.com/andreudumitro-eng/ACCUM" class="button">📦 GitHub</a>
-  <a href="https://github.com/andreudumitro-eng/ACCUM/blob/main/whitepaper/en/ACCUM_whitepaper_v2.0_en.md" class="button outline">📄 Whitepaper (EN)</a>
   <a href="https://github.com/andreudumitro-eng/ACCUM/blob/main/whitepaper/ru/ACCUM_whitepaper_v2.0_ru.md" class="button outline">📄 Whitepaper (RU)</a>
+  <a href="https://github.com/andreudumitro-eng/ACCUM/blob/main/whitepaper/en/ACCUM_whitepaper_v2.0_en.md" class="button outline">📄 Whitepaper (EN)</a>
   <div style="margin-top:1.5rem; font-size:1.1rem;">
     📧 <strong>andreudumitro@gmail.com</strong> | 🐦 <a href="https://twitter.com/Andredumitro">@Andredumitro</a>
   </div>
@@ -439,64 +487,158 @@
 </div>
 
 <footer class="footer">
-  © 2026 Andrii Dumitro — ACCUM. Open source · Fair launch · No premine
+  © 2026 Andrii Dumitro — ACCUM. Открытый код · Честный запуск · Без премайна
 </footer>
 
 <script>
-function drawChart() {
+(function() {
   const canvas = document.getElementById('rewardChart');
   if (!canvas) return;
+  
   const ctx = canvas.getContext('2d');
-  const w = canvas.clientWidth, h = 280;
-  canvas.width = w; canvas.height = h;
-  const pad = { left: 60, right: 20, top: 20, bottom: 30 };
-  const gw = w - pad.left - pad.right;
-  const gh = h - pad.top - pad.bottom;
-
-  ctx.clearRect(0, 0, w, h);
-  ctx.strokeStyle = "#ccc";
-  ctx.lineWidth = 0.5;
-  for (let i = 0; i <= 5; i++) {
-    let y = pad.top + (i/5) * gh;
-    ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(w - pad.right, y); ctx.stroke();
+  const tooltip = document.getElementById('chartTooltip');
+  
+  function resizeCanvas() {
+    const containerWidth = canvas.parentElement.clientWidth;
+    canvas.width = containerWidth;
+    canvas.height = 300;
+    drawChart();
   }
-
-  ctx.strokeStyle = "#777";
-  ctx.lineWidth = 2;
-  ctx.setLineDash([5, 3]);
-  ctx.beginPath();
-  for (let x = 1; x <= 100; x++) {
-    let dx = pad.left + (x/100) * gw;
-    let dy = h - pad.bottom - (x/100) * gh;
-    if (x === 1) ctx.moveTo(dx, dy); else ctx.lineTo(dx, dy);
+  
+  function drawChart() {
+    const w = canvas.width;
+    const h = canvas.height;
+    const pad = { left: 60, right: 20, top: 20, bottom: 30 };
+    const gw = w - pad.left - pad.right;
+    const gh = h - pad.top - pad.bottom;
+    
+    ctx.clearRect(0, 0, w, h);
+    
+    // Сетка
+    ctx.strokeStyle = "#ccc";
+    ctx.lineWidth = 0.5;
+    for (let i = 0; i <= 5; i++) {
+      let y = pad.top + (i/5) * gh;
+      ctx.beginPath();
+      ctx.moveTo(pad.left, y);
+      ctx.lineTo(w - pad.right, y);
+      ctx.stroke();
+    }
+    
+    // Ось X
+    ctx.fillStyle = "#555";
+    ctx.font = "11px Arial";
+    ctx.textAlign = "center";
+    for (let i = 0; i <= 5; i++) {
+      let x = pad.left + (i/5) * gw;
+      let label = Math.round(i/5 * 100);
+      ctx.fillText(label + "%", x, h - pad.bottom + 18);
+    }
+    
+    // Bitcoin (пунктир)
+    ctx.strokeStyle = "#777";
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 3]);
+    ctx.beginPath();
+    for (let x = 0; x <= 100; x++) {
+      let dx = pad.left + (x/100) * gw;
+      let dy = h - pad.bottom - (x/100) * gh;
+      if (x === 0) ctx.moveTo(dx, dy);
+      else ctx.lineTo(dx, dy);
+    }
+    ctx.stroke();
+    
+    // ACCUM (логарифмическая)
+    ctx.strokeStyle = "#2e7d32";
+    ctx.lineWidth = 3;
+    ctx.setLineDash([]);
+    ctx.beginPath();
+    const maxLog = Math.log2(101);
+    for (let x = 0; x <= 100; x++) {
+      let val = Math.log2(1 + x) / maxLog;
+      let dx = pad.left + (x/100) * gw;
+      let dy = h - pad.bottom - val * gh;
+      if (x === 0) ctx.moveTo(dx, dy);
+      else ctx.lineTo(dx, dy);
+    }
+    ctx.stroke();
+    
+    // Легенда
+    ctx.fillStyle = "#2e7d32";
+    ctx.fillRect(w - 130, pad.top + 5, 12, 12);
+    ctx.fillStyle = "#000";
+    ctx.font = "12px Arial";
+    ctx.textAlign = "left";
+    ctx.fillText("ACCUM", w - 110, pad.top + 16);
+    ctx.fillStyle = "#777";
+    ctx.fillRect(w - 130, pad.top + 30, 12, 12);
+    ctx.fillText("Bitcoin", w - 110, pad.top + 41);
   }
-  ctx.stroke();
-
-  ctx.strokeStyle = "#2e7d32";
-  ctx.lineWidth = 3;
-  ctx.setLineDash([]);
-  const maxLog = Math.log2(101);
-  ctx.beginPath();
-  for (let x = 1; x <= 100; x++) {
-    let val = Math.log2(1 + x) / maxLog;
-    let dx = pad.left + (x/100) * gw;
-    let dy = h - pad.bottom - val * gh;
-    if (x === 1) ctx.moveTo(dx, dy); else ctx.lineTo(dx, dy);
+  
+  // Интерактивность при наведении мыши
+  function handleMouseMove(e) {
+    const rect = canvas.getBoundingClientRect();
+    const scaleX = canvas.width / rect.width;
+    const scaleY = canvas.height / rect.height;
+    
+    const mouseX = (e.clientX - rect.left) * scaleX;
+    const mouseY = (e.clientY - rect.top) * scaleY;
+    
+    const w = canvas.width;
+    const h = canvas.height;
+    const pad = { left: 60, right: 20, top: 20, bottom: 30 };
+    const gw = w - pad.left - pad.right;
+    const gh = h - pad.top - pad.bottom;
+    
+    // Проверяем, попадает ли мышь в область графика
+    if (mouseX >= pad.left && mouseX <= w - pad.right && mouseY >= pad.top && mouseY <= h - pad.bottom) {
+      const xPercent = (mouseX - pad.left) / gw;
+      const xValue = Math.round(xPercent * 100);
+      const yBitcoin = h - pad.bottom - xPercent * gh;
+      const maxLog = Math.log2(101);
+      const yAccum = h - pad.bottom - (Math.log2(1 + xValue) / maxLog) * gh;
+      
+      // Находим ближайшую точку на кривой ACCUM
+      let minDist = Infinity;
+      let bestValue = 0;
+      for (let testX = 0; testX <= 100; testX++) {
+        let testDx = pad.left + (testX/100) * gw;
+        let testVal = Math.log2(1 + testX) / maxLog;
+        let testDy = h - pad.bottom - testVal * gh;
+        let dist = Math.hypot(testDx - mouseX, testDy - mouseY);
+        if (dist < minDist) {
+          minDist = dist;
+          bestValue = testX;
+        }
+      }
+      
+      if (minDist < 30) {
+        let rewardPercent = (Math.log2(1 + bestValue) / maxLog * 100).toFixed(1);
+        tooltip.style.opacity = 1;
+        tooltip.style.left = (e.clientX - rect.left + 20) + 'px';
+        tooltip.style.top = (e.clientY - rect.top - 40) + 'px';
+        tooltip.textContent = `${bestValue}% хешрейта → ${rewardPercent}% награды`;
+      } else {
+        tooltip.style.opacity = 0;
+      }
+    } else {
+      tooltip.style.opacity = 0;
+    }
   }
-  ctx.stroke();
-
-  ctx.fillStyle = "#2e7d32";
-  ctx.fillRect(w - 130, pad.top + 5, 12, 12);
-  ctx.fillStyle = "#000";
-  ctx.font = "12px Arial";
-  ctx.textAlign = "left";
-  ctx.fillText("ACCUM", w - 110, pad.top + 16);
-  ctx.fillStyle = "#777";
-  ctx.fillRect(w - 130, pad.top + 30, 12, 12);
-  ctx.fillText("Bitcoin", w - 110, pad.top + 41);
-}
-window.addEventListener('load', drawChart);
-window.addEventListener('resize', drawChart);
+  
+  window.addEventListener('resize', () => {
+    resizeCanvas();
+    drawChart();
+  });
+  
+  canvas.addEventListener('mousemove', handleMouseMove);
+  canvas.addEventListener('mouseleave', () => {
+    tooltip.style.opacity = 0;
+  });
+  
+  resizeCanvas();
+  drawChart();
+})();
 </script>
 
 </body>
