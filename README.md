@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -8,11 +8,14 @@
     :root {
       --color-primary-dark: #0d1b2a;
       --color-primary: #1b263b;
-      --color-primary-light: #415a77;
+      --color-primary-light: #2a3b4e;
       --color-secondary: #778da9;
       --color-accent: #e0e1dd;
       --color-success: #4caf50;
+      --color-success-bright: #6fbf73;
       --color-warning: #ffb300;
+      --color-table-header: #2c3e50;
+      --color-table-row-alt: #253544;
       --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI",
         Roboto, Helvetica, Arial, sans-serif;
       --border-radius: 20px;
@@ -103,6 +106,12 @@
       margin-bottom: 1.5rem;
       border-left: 6px solid var(--color-success);
       padding-left: 1rem;
+    }
+
+    h3 {
+      color: var(--color-warning);
+      font-size: 1.6rem;
+      margin: 1.5rem 0 1rem 0;
     }
 
     .hero {
@@ -276,37 +285,75 @@
       user-select: none;
     }
 
+    /* Улучшенные стили для таблиц */
     table {
       width: 100%;
       border-collapse: collapse;
-      background: var(--color-primary);
       border-radius: 16px;
       overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0, 40, 80, 0.3);
-      color: #ffffff;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+      margin: 1.5rem 0;
+      border: 1px solid var(--color-success);
     }
 
     th {
       background: var(--color-success);
       color: #000000;
       font-weight: 700;
-      padding: 1rem 1.3rem;
+      padding: 1.2rem 1rem;
       text-align: left;
+      font-size: 1.1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      border-bottom: 2px solid #ffffff;
     }
 
     td {
-      padding: 1rem 1.3rem;
+      padding: 1rem 1rem;
       border-bottom: 1px solid var(--color-primary-light);
-      color: #f0f0f0;
+      color: #ffffff;
+      font-size: 1rem;
     }
 
+    /* Чередование цветов строк */
+    tbody tr:nth-child(even) {
+      background-color: var(--color-table-row-alt);
+    }
+
+    tbody tr:nth-child(odd) {
+      background-color: var(--color-primary);
+    }
+
+    /* Первый столбец (названия параметров) */
     td:first-child {
       font-weight: 600;
       color: var(--color-warning);
+      background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    /* Выделение ACCUM */
+    td:last-child {
+      font-weight: 600;
+      color: var(--color-success-bright);
+      border-left: 2px solid var(--color-success);
     }
 
     td strong {
-      color: var(--color-success);
+      color: var(--color-success-bright);
+    }
+
+    /* Специальные стили для токеномики */
+    .tokenomics-table th {
+      background: var(--color-success);
+    }
+
+    .tokenomics-table td {
+      font-weight: 500;
+    }
+
+    .tokenomics-table td:first-child {
+      background-color: transparent;
+      color: var(--color-warning);
     }
 
     .button {
@@ -360,21 +407,17 @@
       box-shadow: 0 4px 20px rgba(0, 100, 0, 0.6);
     }
 
-    .tokenomics-table {
-      width: 100%;
-      border-collapse: collapse;
+    .formula-block {
+      background: var(--color-primary-dark);
+      padding: 1.5rem;
+      border-radius: 16px;
+      font-family: 'Courier New', monospace;
+      font-size: 1.3rem;
+      text-align: center;
+      color: var(--color-success);
       margin: 1.5rem 0;
-    }
-
-    .tokenomics-table th {
-      background: var(--color-success);
-      color: #000;
-      padding: 0.8rem;
-    }
-
-    .tokenomics-table td {
-      padding: 0.8rem;
-      border-bottom: 1px solid var(--color-primary-light);
+      border: 1px solid var(--color-success);
+      box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
     }
 
     footer.footer {
@@ -385,10 +428,6 @@
       font-size: 1rem;
       user-select: none;
       background-color: var(--color-primary);
-    }
-
-    .hidden {
-      display: none !important;
     }
 
     @media (max-width: 768px) {
@@ -416,6 +455,14 @@
 
       .logo {
         font-size: 2.4rem;
+      }
+
+      table {
+        font-size: 0.9rem;
+      }
+
+      th, td {
+        padding: 0.8rem 0.5rem;
       }
     }
   </style>
@@ -614,7 +661,7 @@
       </div>
     </section>
 
-    <!-- ECONOMIC MODEL (moved under chart) -->
+    <!-- ECONOMIC MODEL -->
     <section class="section" aria-labelledby="economic-title">
       <h2 id="economic-title" data-en="🔐 Economic model" data-ru="🔐 Экономическая модель">🔐 Economic model</h2>
       <p><strong>Bitcoin (linear):</strong> E = α·B — reward scales linearly with hashrate share, encouraging centralization.</p>
@@ -626,14 +673,10 @@
       </ul>
     </section>
 
-    <!-- COMPARISON TABLE (moved under Economic model) -->
+    <!-- COMPARISON TABLE (improved visibility) -->
     <section class="section" aria-labelledby="comparison-title">
       <h2 id="comparison-title" data-en="🔍 Comparison with other PoW" data-ru="🔍 Сравнение с другими PoW">🔍 Comparison with other PoW</h2>
-      <table role="table" aria-describedby="comparison-description">
-        <caption id="comparison-description" class="visually-hidden" style="display:none;">
-          Comparison of reward models, premine, sybil resistance, and node size across Bitcoin,
-          Kaspa, Monero, and ACCUM.
-        </caption>
+      <table role="table">
         <thead>
           <tr>
             <th scope="col" data-en="Parameter" data-ru="Параметр">Parameter</th>
@@ -690,9 +733,11 @@
       </table>
     </section>
 
-    <!-- TOKENOMICS (new section from whitepaper) -->
+    <!-- TOKENOMICS (improved visibility) -->
     <section class="section" aria-labelledby="tokenomics-title">
       <h2 id="tokenomics-title" data-en="📊 Tokenomics" data-ru="📊 Токеномика">📊 Tokenomics</h2>
+      
+      <h3 data-en="Token Parameters" data-ru="Параметры токена">Token Parameters</h3>
       <table class="tokenomics-table">
         <tr>
           <th data-en="Parameter" data-ru="Параметр">Parameter</th>
@@ -700,58 +745,138 @@
         </tr>
         <tr>
           <td><strong>Ticker</strong></td>
-          <td>$ACM</td>
+          <td><strong style="color: #4caf50; font-size: 1.2rem;">$ACM</strong></td>
         </tr>
         <tr>
           <td><strong data-en="Max Supply" data-ru="Макс. предложение">Max Supply</strong></td>
-          <td>21,000,000</td>
+          <td><strong>21,000,000</strong></td>
         </tr>
         <tr>
           <td><strong data-en="Genesis Block Reward" data-ru="Награда за генезис-блок">Genesis Block Reward</strong></td>
-          <td>50 ACM</td>
+          <td><strong>50 ACM</strong></td>
         </tr>
         <tr>
           <td><strong data-en="Halving Interval" data-ru="Интервал халвинга">Halving Interval</strong></td>
-          <td data-en="210,000 blocks (~2 years)" data-ru="210,000 блоков (~2 года)">210,000 blocks (~2 years)</td>
+          <td><strong data-en="210,000 blocks (~2 years)" data-ru="210,000 блоков (~2 года)">210,000 blocks (~2 years)</strong></td>
         </tr>
       </table>
       
-      <h3 style="color: var(--color-success); margin-top: 2rem;" data-en="Initial Distribution" data-ru="Начальное распределение">Initial Distribution</h3>
+      <h3 style="color: var(--color-warning); margin-top: 2rem;" data-en="Initial Distribution" data-ru="Начальное распределение">Initial Distribution</h3>
       <table class="tokenomics-table">
-        <tr>
-          <th data-en="Allocation" data-ru="Аллокация">Allocation</th>
-          <th data-en="Percentage" data-ru="Процент">Percentage</th>
-          <th data-en="Amount" data-ru="Количество">Amount</th>
-          <th data-en="Vesting" data-ru="Вестинг">Vesting</th>
-        </tr>
-        <tr>
-          <td data-en="Mining Rewards" data-ru="Майнинг награды">Mining Rewards</td>
-          <td>80%</td>
-          <td>16,800,000</td>
-          <td data-en="Emitted over ~120 years" data-ru="Эмиссия ~120 лет">Emitted over ~120 years</td>
-        </tr>
-        <tr>
-          <td data-en="Core Team" data-ru="Команда">Core Team</td>
-          <td>10%</td>
-          <td>2,100,000</td>
-          <td data-en="4‑year linear vesting" data-ru="4 года линейно">4‑year linear vesting</td>
-        </tr>
-        <tr>
-          <td data-en="Foundation Treasury" data-ru="Казна фонда">Foundation Treasury</td>
-          <td>5%</td>
-          <td>1,050,000</td>
-          <td data-en="2‑year lock" data-ru="Заморозка на 2 года">2‑year lock</td>
-        </tr>
-        <tr>
-          <td data-en="Community & Ecosystem" data-ru="Сообщество и экосистема">Community & Ecosystem</td>
-          <td>5%</td>
-          <td>1,050,000</td>
-          <td data-en="Airdrop, grants" data-ru="Airdrop, гранты">Airdrop, grants</td>
-        </tr>
+        <thead>
+          <tr>
+            <th data-en="Allocation" data-ru="Аллокация">Allocation</th>
+            <th data-en="Percentage" data-ru="Процент">Percentage</th>
+            <th data-en="Amount" data-ru="Количество">Amount</th>
+            <th data-en="Vesting" data-ru="Вестинг">Vesting</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-en="Mining Rewards" data-ru="Майнинг награды">Mining Rewards</td>
+            <td><strong>80%</strong></td>
+            <td><strong>16,800,000</strong></td>
+            <td data-en="Emitted over ~120 years" data-ru="Эмиссия ~120 лет">Emitted over ~120 years</td>
+          </tr>
+          <tr>
+            <td data-en="Core Team" data-ru="Команда">Core Team</td>
+            <td><strong>10%</strong></td>
+            <td><strong>2,100,000</strong></td>
+            <td data-en="4‑year linear vesting" data-ru="4 года линейно">4‑year linear vesting</td>
+          </tr>
+          <tr>
+            <td data-en="Foundation Treasury" data-ru="Казна фонда">Foundation Treasury</td>
+            <td><strong>5%</strong></td>
+            <td><strong>1,050,000</strong></td>
+            <td data-en="2‑year lock" data-ru="Заморозка на 2 года">2‑year lock</td>
+          </tr>
+          <tr>
+            <td data-en="Community & Ecosystem" data-ru="Сообщество и экосистема">Community & Ecosystem</td>
+            <td><strong>5%</strong></td>
+            <td><strong>1,050,000</strong></td>
+            <td data-en="Airdrop, grants" data-ru="Airdrop, гранты">Airdrop, grants</td>
+          </tr>
+        </tbody>
       </table>
     </section>
 
-    <!-- TWO-NODE MINING (LIVE LOGS) - renamed from Live broadcast -->
+    <!-- PoCI DETAILS (single instance - duplicate removed) -->
+    <section class="section" aria-labelledby="poci-title">
+      <h2 id="poci-title" data-en="🆔 Proof-of-Contribution-and-Identity (PoCI)" data-ru="🆔 Proof-of-Contribution-and-Identity (PoCI)">🆔 Proof-of-Contribution-and-Identity (PoCI)</h2>
+      <p data-en="PoCI establishes a composite reputation score:"
+         data-ru="PoCI создает составной рейтинг репутации:">
+         PoCI establishes a composite reputation score:
+      </p>
+      
+      <div class="formula-block">
+        S = w₁Cₕₐₛₕ + w₂Tᵤₚ + w₃Vₜₓ + w₄B_w + w₅Aₙₑₜ + w₆Hₕᵢₛₜ
+      </div>
+      
+      <table style="margin-top: 1.5rem;">
+        <thead>
+          <tr>
+            <th data-en="Component" data-ru="Компонент">Component</th>
+            <th data-en="Weight" data-ru="Вес">Weight</th>
+            <th data-en="Description" data-ru="Описание">Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Hashrate</strong></td>
+            <td><strong style="color: #4caf50;">40%</strong></td>
+            <td data-en="Validated hashrate contribution" data-ru="Подтвержденный хешрейт">Validated hashrate contribution</td>
+          </tr>
+          <tr>
+            <td><strong>Uptime</strong></td>
+            <td><strong style="color: #4caf50;">20%</strong></td>
+            <td data-en="Node uptime and responsiveness" data-ru="Аптайм и отзывчивость ноды">Node uptime and responsiveness</td>
+          </tr>
+          <tr>
+            <td><strong>Transactions verified</strong></td>
+            <td><strong style="color: #4caf50;">15%</strong></td>
+            <td data-en="Volume of verified/propagated transactions" data-ru="Количество проверенных/переданных транзакций">Volume of verified/propagated transactions</td>
+          </tr>
+          <tr>
+            <td><strong>Bandwidth</strong></td>
+            <td><strong style="color: #4caf50;">10%</strong></td>
+            <td data-en="Contribution to peers" data-ru="Вклад в пиры">Contribution to peers</td>
+          </tr>
+          <tr>
+            <td><strong>Network age</strong></td>
+            <td><strong style="color: #4caf50;">10%</strong></td>
+            <td data-en="Chronological age of the node" data-ru="Хронологический возраст ноды">Chronological age of the node</td>
+          </tr>
+          <tr>
+            <td><strong>Honest history</strong></td>
+            <td><strong style="color: #4caf50;">5%</strong></td>
+            <td data-en="Adherence to protocol rules" data-ru="Соблюдение правил протокола">Adherence to protocol rules</td>
+          </tr>
+        </tbody>
+      </table>
+      
+      <p style="margin-top: 1.5rem; font-style: italic;" 
+         data-en="Sybil Resistance: A Sybil attacker deploying 1000 ephemeral nodes has negligible aggregate score compared to a single node with one year of history."
+         data-ru="Sybil-устойчивость: Атакующий, развернувший 1000 эфемерных нод, получит незначительный совокупный рейтинг по сравнению с одной нодой с годовой историей.">
+         Sybil Resistance: A Sybil attacker deploying 1000 ephemeral nodes has negligible aggregate score compared to a single node with one year of history.
+      </p>
+    </section>
+
+    <!-- SHARD STREAMS -->
+    <section class="section" aria-labelledby="shard-title">
+      <h2 id="shard-title" data-en="💧 Shard Streams (Hashrate Futures)" data-ru="💧 Shard Streams (Фьючерсы на хешрейт)">💧 Shard Streams (Hashrate Futures)</h2>
+      <p data-en="Tokenization of future rewards for instant miner liquidity:"
+         data-ru="Токенизация будущих наград для мгновенной ликвидности майнеров:">
+         Tokenization of future rewards for instant miner liquidity:
+      </p>
+      <ul>
+        <li><strong data-en="Instrument:" data-ru="Инструмент:">Instrument:</strong> <span data-en="Non-fungible token representing future reward claim" 
+              data-ru="Невзаимозаменяемый токен, представляющий право на будущую награду">Non-fungible token representing future reward claim</span></li>
+        <li><strong data-en="Unit:" data-ru="Единица:">Unit:</strong> 0.0001 ACM per block for one year</li>
+        <li><strong data-en="Typical price:" data-ru="Типичная цена:">Typical price:</strong> 5 ACM (~30% discount to NPV)</li>
+      </ul>
+    </section>
+
+    <!-- TWO-NODE MINING (TEST RESULTS) -->
     <section class="section" aria-labelledby="mining-title">
       <h2 id="mining-title" data-en="⛏️ Two‑node mining (test results)" data-ru="⛏️ Двухнодовый майнинг (результаты тестов)">⛏️ Two‑node mining (test results)</h2>
       <p data-en="Run two nodes with a single command:" data-ru="Запустите две ноды одной командой:">Run two nodes with a single command:</p>
@@ -780,21 +905,21 @@
       </div>
     </section>
 
-    <!-- TESTNET STATUS (updated) -->
+    <!-- TESTNET STATUS -->
     <section class="section" aria-labelledby="testnet-title">
       <h2 id="testnet-title" data-en="✅ Live testnet (Q1 2026)" data-ru="✅ Живой тестнет (Q1 2026)">✅ Live testnet (Q1 2026)</h2>
       <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem">
-        <div class="glance-item">
-          <strong>62</strong><br />
-          <span data-en="blocks" data-ru="блоков">blocks</span>
+        <div class="glance-item" style="text-align: center;">
+          <strong style="font-size: 2rem;">62</strong><br />
+          <span data-en="blocks" data-ru="блоков" style="font-size: 1.1rem;">blocks</span>
         </div>
-        <div class="glance-item">
-          <strong>18</strong><br />
-          <span data-en="transactions" data-ru="транзакций">transactions</span>
+        <div class="glance-item" style="text-align: center;">
+          <strong style="font-size: 2rem;">18</strong><br />
+          <span data-en="transactions" data-ru="транзакций" style="font-size: 1.1rem;">transactions</span>
         </div>
-        <div class="glance-item">
-          <strong>2</strong><br />
-          <span data-en="active nodes" data-ru="активных нод">active nodes</span>
+        <div class="glance-item" style="text-align: center;">
+          <strong style="font-size: 2rem;">2</strong><br />
+          <span data-en="active nodes" data-ru="активных нод" style="font-size: 1.1rem;">active nodes</span>
         </div>
       </div>
       <ul style="margin-left: 1.5rem;">
@@ -814,46 +939,6 @@
             data-ru="✅ P2P обмен шардами и блоками полностью функционален">
             ✅ P2P shard and block exchange fully functional
         </li>
-      </ul>
-    </section>
-
-    <!-- PoCI DETAILS (new from whitepaper) -->
-    <section class="section" aria-labelledby="poci-title">
-      <h2 id="poci-title" data-en="🆔 Proof-of-Contribution-and-Identity (PoCI)" data-ru="🆔 Proof-of-Contribution-and-Identity (PoCI)">🆔 Proof-of-Contribution-and-Identity (PoCI)</h2>
-      <p data-en="PoCI establishes a composite reputation score:"
-         data-ru="PoCI создает составной рейтинг репутации:">
-         PoCI establishes a composite reputation score:
-      </p>
-      <p style="font-family: monospace; font-size: 1.2rem; background: var(--color-primary-dark); padding: 1rem; border-radius: 12px;">
-        S = w₁Cₕₐₛₕ + w₂Tᵤₚ + w₃Vₜₓ + w₄B_w + w₅Aₙₑₜ + w₆Hₕᵢₛₜ
-      </p>
-      <table style="margin-top: 1rem;">
-        <tr>
-          <th data-en="Component" data-ru="Компонент">Component</th>
-          <th data-en="Weight" data-ru="Вес">Weight</th>
-          <th data-en="Description" data-ru="Описание">Description</th>
-        </tr>
-        <tr><td>Hashrate</td><td>40%</td><td data-en="Validated hashrate contribution" data-ru="Подтвержденный хешрейт">Validated hashrate contribution</td></tr>
-        <tr><td>Uptime</td><td>20%</td><td data-en="Node uptime and responsiveness" data-ru="Аптайм и отзывчивость ноды">Node uptime and responsiveness</td></tr>
-        <tr><td>Transactions verified</td><td>15%</td><td data-en="Volume of verified/propagated transactions" data-ru="Количество проверенных/переданных транзакций">Volume of verified/propagated transactions</td></tr>
-        <tr><td>Bandwidth</td><td>10%</td><td data-en="Contribution to peers" data-ru="Вклад в пиры">Contribution to peers</td></tr>
-        <tr><td>Network age</td><td>10%</td><td data-en="Chronological age of the node" data-ru="Хронологический возраст ноды">Chronological age of the node</td></tr>
-        <tr><td>Honest history</td><td>5%</td><td data-en="Adherence to protocol rules" data-ru="Соблюдение правил протокола">Adherence to protocol rules</td></tr>
-      </table>
-    </section>
-
-    <!-- SHARD STREAMS (new from whitepaper) -->
-    <section class="section" aria-labelledby="shard-title">
-      <h2 id="shard-title" data-en="💧 Shard Streams (Hashrate Futures)" data-ru="💧 Shard Streams (Фьючерсы на хешрейт)">💧 Shard Streams (Hashrate Futures)</h2>
-      <p data-en="Tokenization of future rewards for instant miner liquidity:"
-         data-ru="Токенизация будущих наград для мгновенной ликвидности майнеров:">
-         Tokenization of future rewards for instant miner liquidity:
-      </p>
-      <ul>
-        <li><strong data-en="Instrument:" data-ru="Инструмент:">Instrument:</strong> <span data-en="Non-fungible token representing future reward claim" 
-              data-ru="Невзаимозаменяемый токен, представляющий право на будущую награду">Non-fungible token representing future reward claim</span></li>
-        <li><strong data-en="Unit:" data-ru="Единица:">Unit:</strong> 0.0001 ACM per block for one year</li>
-        <li><strong data-en="Typical price:" data-ru="Типичная цена:">Typical price:</strong> 5 ACM (~30% discount to NPV)</li>
       </ul>
     </section>
 
@@ -884,14 +969,14 @@
       </div>
     </section>
 
-    <!-- CONTACT & LINKS (updated with more buttons) -->
+    <!-- CONTACT & LINKS -->
     <section class="section">
       <h2 data-en="📚 Source code & whitepaper" data-ru="📚 Исходный код и вайтпейпер">📚 Source code & whitepaper</h2>
       <a href="https://github.com/andreudumitro-eng/ACCUM" class="button">📦 GitHub</a>
       <a href="https://github.com/andreudumitro-eng/ACCUM/blob/main/whitepaper/en/ACCUM_whitepaper_v2.1.md" class="button outline">📄 Whitepaper (EN)</a>
       <a href="https://github.com/andreudumitro-eng/ACCUM/blob/main/whitepaper/ru/ACCUM_whitepaper_v2.1.md" class="button outline">📄 Whitepaper (RU)</a>
-      <a href="#" class="button outline" data-en="📱 accum.site" data-ru="📱 accum.site">📱 accum.site</a>
-      <div style="margin-top:1.5rem;">
+      <a href="#" class="button outline" data-en="🌐 accum.site" data-ru="🌐 accum.site">🌐 accum.site</a>
+      <div style="margin-top:1.5rem; font-size: 1.2rem;">
         📧 <strong>andreudumitro@gmail.com</strong> | 🐦 <a href="https://twitter.com/Andredumitro" target="_blank" style="color: var(--color-success);">@Andredumitro</a>
       </div>
     </section>
