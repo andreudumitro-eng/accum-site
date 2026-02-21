@@ -246,17 +246,34 @@
       font-style: italic;
       user-select: none;
     }
-
+    
     table {
-      width: 100%;
-      border-collapse: collapse;
-      background: var(--color-primary);
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 6px 20px rgba(0, 40, 80, 0.3);
-      color: var(--color-accent);
-    }
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--color-primary);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 40, 80, 0.3);
+  color: #ffffff;  /* ← белый текст */
+}
 
+th {
+  background: var(--color-success);
+  color: #000000;  /* ← чёрный текст на зелёном */
+  font-weight: 700;
+  padding: 1rem 1.3rem;
+  text-align: left;
+}
+
+td {
+  padding: 1rem 1.3rem;
+  border-bottom: 1px solid var(--color-primary-light);
+  color: #f0f0f0;  /* ← очень светлый серый */
+}
+
+td strong {
+  color: var(--color-success);
+}
     th,
     td {
       padding: 1rem 1.3rem;
@@ -582,7 +599,7 @@
 [Node2] 💸 Test transaction d4c97e95 (10 coins) to a87df598
       </pre>
       <div style="margin-top: 1.5rem;">
-        <a href="https://github.com/andreudumitro-eng/ACCUM" class="button" role="button">📦 Download accum.py</a>
+       <a href="https://github.com/andreudumitro-eng/ACCUM" class="button">📦 Download accum.py</a>
         <a href="#install" class="button outline" role="button">Quick start guide</a>
       </div>
     </section>
@@ -733,11 +750,12 @@
     <!-- CONTACT & LINKS -->
     <section class="section">
       <h2>📚 Source code & whitepaper</h2>
-      <a href="https://github.com/andreudumitro-eng/ACCUM" class="button">📦 GitHub</a>
-      <a href="https://github.com/andreudumitro-eng/ACCUM/blob/main/whitepaper/en/ACCUM_whitepaper_v2.1.md" class="button outline">📄 Whitepaper (EN)</a>
-      <a href="https://github.com/andreudumitro-eng/ACCUM/blob/main/whitepaper/ru/ACCUM_whitepaper_v2.1.md" class="button outline">📄 Whitepaper (RU)</a>
+      < a href="https://github.com/andreudumitro-eng/ACCUM" class="button">📦 GitHub</a>
+    <a href="https://github.com/andreudumitro-eng/ACCUM/blob/main/whitepaper/en/ACCUM_whitepaper_v2.1.md" target="_blank" class="button outline">Read Whitepaper</a>
+Whitepaper (EN)</a>
+<a href="https://github.com/andreudumitro-eng/ACCUM/blob/main/whitepaper/ru/ACCUM_whitepaper_v2.1.md" class="button outline">📄 Whitepaper (RU)</a>
       <div style="margin-top:1.5rem;">
-        📧 <strong>andreudumitro@gmail.com</strong> | 🐦 <a href="https://twitter.com/Andredumitro" target="_blank">@Andredumitro</a>
+        📧 <strong>andreudumitro@gmail.com</strong> | 🐦<a href="https://twitter.com/Andredumitro" target="_blank">@Andredumitro</a>
       </div>
     </section>
 
@@ -765,121 +783,127 @@ python accum.py
   </main>
 
   <!-- CHART WITH INTERACTIVE TOOLTIP -->
-  <script>
-    (function() {
-        const canvas = document.getElementById('rewardChart');
-        const tooltip = document.getElementById('chartTooltip');
+   <script>
+  (function() {
+    const canvas = document.getElementById('rewardChart');
+    const tooltip = document.getElementById('chartTooltip');
+    
+    if (!canvas || !tooltip) return;
+    
+    const ctx = canvas.getContext('2d');
+    let w, h;
+    
+    function resizeCanvas() {
+      w = canvas.clientWidth;
+      h = 320;
+      canvas.width = w;
+      canvas.height = h;
+      drawChart();
+    }
+    
+    function drawChart() {
+      ctx.clearRect(0, 0, w, h);
+      
+      const pad = { left: 60, right: 20, top: 20, bottom: 30 };
+      const gw = w - pad.left - pad.right;
+      const gh = h - pad.top - pad.bottom;
+      
+      // Grid
+      ctx.strokeStyle = "#555";
+      ctx.lineWidth = 0.5;
+      for (let i = 0; i <= 5; i++) {
+        let y = pad.top + (i / 5) * gh;
+        ctx.beginPath();
+        ctx.moveTo(pad.left, y);
+        ctx.lineTo(w - pad.right, y);
+        ctx.stroke();
+      }
+      
+      // Bitcoin linear (dashed)
+      ctx.strokeStyle = "#aaaaaa";
+      ctx.lineWidth = 2.5;
+      ctx.setLineDash([6, 4]);
+      ctx.beginPath();
+      for (let x = 1; x <= 100; x++) {
+        let dx = pad.left + (x / 100) * gw;
+        let dy = h - pad.bottom - (x / 100) * gh;
+        if (x === 1) ctx.moveTo(dx, dy);
+        else ctx.lineTo(dx, dy);
+      }
+      ctx.stroke();
+      
+      // ACCUM logarithmic (green)
+      ctx.strokeStyle = "#4caf50";
+      ctx.lineWidth = 3.5;
+      ctx.setLineDash([]);
+      ctx.beginPath();
+      const maxLog = Math.log2(101);
+      for (let x = 1; x <= 100; x++) {
+        let val = Math.log2(1 + x) / maxLog;
+        let dx = pad.left + (x / 100) * gw;
+        let dy = h - pad.bottom - val * gh;
+        if (x === 1) ctx.moveTo(dx, dy);
+        else ctx.lineTo(dx, dy);
+      }
+      ctx.stroke();
+      
+      // Legend
+      ctx.fillStyle = "#4caf50";
+      ctx.fillRect(w - 130, pad.top + 5, 14, 14);
+      ctx.fillStyle = "#ffffff";
+      ctx.font = "12px Arial";
+      ctx.textAlign = "left";
+      ctx.fillText("ACCUM (log)", w - 110, pad.top + 17);
+      
+      ctx.fillStyle = "#aaaaaa";
+      ctx.fillRect(w - 130, pad.top + 30, 14, 14);
+      ctx.fillStyle = "#ffffff";
+      ctx.fillText("Bitcoin (linear)", w - 110, pad.top + 42);
+    }
+    
+    function handleMouseMove(e) {
+      const rect = canvas.getBoundingClientRect();
+      const scaleX = canvas.width / rect.width;
+      const scaleY = canvas.height / rect.height;
+      
+      const mouseX = (e.clientX - rect.left) * scaleX;
+      const mouseY = (e.clientY - rect.top) * scaleY;
+      
+      const pad = { left: 60, right: 20, top: 20, bottom: 30 };
+      const gw = canvas.width - pad.left - pad.right;
+      const gh = canvas.height - pad.top - pad.bottom;
+      
+      if (mouseX >= pad.left && mouseX <= canvas.width - pad.right &&
+          mouseY >= pad.top && mouseY <= canvas.height - pad.bottom) {
         
-        if (!canvas || !tooltip) return;
+        const share = (mouseX - pad.left) / gw * 100;
+        const clampedShare = Math.min(100, Math.max(0, share));
         
-        const ctx = canvas.getContext('2d');
-        let w, h;
+        const linearReward = clampedShare;
+        const logReward = Math.log2(1 + clampedShare) / Math.log2(101) * 100;
         
-        function resizeCanvas() {
-            w = canvas.clientWidth;
-            h = 320;
-            canvas.width = w;
-            canvas.height = h;
-            drawChart();
-        }
-        
-        function drawChart() {
-            ctx.clearRect(0, 0, w, h);
-            
-            const pad = { left: 60, right: 20, top: 20, bottom: 30 };
-            const gw = w - pad.left - pad.right;
-            const gh = h - pad.top - pad.bottom;
-            
-            ctx.strokeStyle = "#ccc";
-            ctx.lineWidth = 0.5;
-            for (let i = 0; i <= 5; i++) {
-                let y = pad.top + (i / 5) * gh;
-                ctx.beginPath();
-                ctx.moveTo(pad.left, y);
-                ctx.lineTo(w - pad.right, y);
-                ctx.stroke();
-            }
-            
-            ctx.strokeStyle = "#777";
-            ctx.lineWidth = 2;
-            ctx.setLineDash([5, 3]);
-            ctx.beginPath();
-            for (let x = 1; x <= 100; x++) {
-                let dx = pad.left + (x / 100) * gw;
-                let dy = h - pad.bottom - (x / 100) * gh;
-                if (x === 1) ctx.moveTo(dx, dy);
-                else ctx.lineTo(dx, dy);
-            }
-            ctx.stroke();
-            
-            ctx.strokeStyle = "#2e7d32";
-            ctx.lineWidth = 3;
-            ctx.setLineDash([]);
-            ctx.beginPath();
-            const maxLog = Math.log2(101);
-            for (let x = 1; x <= 100; x++) {
-                let val = Math.log2(1 + x) / maxLog;
-                let dx = pad.left + (x / 100) * gw;
-                let dy = h - pad.bottom - val * gh;
-                if (x === 1) ctx.moveTo(dx, dy);
-                else ctx.lineTo(dx, dy);
-            }
-            ctx.stroke();
-            
-            ctx.fillStyle = "#2e7d32";
-            ctx.fillRect(w - 130, pad.top + 5, 12, 12);
-            ctx.fillStyle = "#000";
-            ctx.font = "12px Arial";
-            ctx.textAlign = "left";
-            ctx.fillText("ACCUM (log)", w - 110, pad.top + 16);
-            
-            ctx.fillStyle = "#777";
-            ctx.fillRect(w - 130, pad.top + 30, 12, 12);
-            ctx.fillText("Bitcoin (linear)", w - 110, pad.top + 41);
-        }
-        
-        function handleMouseMove(e) {
-            const rect = canvas.getBoundingClientRect();
-            const scaleX = canvas.width / rect.width;
-            const scaleY = canvas.height / rect.height;
-            
-            const mouseX = (e.clientX - rect.left) * scaleX;
-            const mouseY = (e.clientY - rect.top) * scaleY;
-            
-            const pad = { left: 60, right: 20, top: 20, bottom: 30 };
-            const gw = canvas.width - pad.left - pad.right;
-            const gh = canvas.height - pad.top - pad.bottom;
-            
-            if (mouseX >= pad.left && mouseX <= canvas.width - pad.right &&
-                mouseY >= pad.top && mouseY <= canvas.height - pad.bottom) {
-                
-                const share = (mouseX - pad.left) / gw * 100;
-                const clampedShare = Math.min(100, Math.max(0, share));
-                
-                const linearReward = clampedShare;
-                const logReward = Math.log2(1 + clampedShare) / Math.log2(101) * 100;
-                
-                tooltip.style.opacity = '1';
-                tooltip.style.left = (e.clientX - rect.left + 15) + 'px';
-                tooltip.style.top = (e.clientY - rect.top - 40) + 'px';
-                tooltip.innerHTML = `
-                    <strong>Hashrate share: ${clampedShare.toFixed(1)}%</strong><br>
-                    Bitcoin reward: ${linearReward.toFixed(1)}%<br>
-                    ACCUM reward: ${logReward.toFixed(1)}%
-                `;
-            } else {
-                tooltip.style.opacity = '0';
-            }
-        }
-        
-        canvas.addEventListener('mousemove', handleMouseMove);
-        canvas.addEventListener('mouseleave', () => {
-            tooltip.style.opacity = '0';
-        });
-        
-        window.addEventListener('load', resizeCanvas);
-        window.addEventListener('resize', resizeCanvas);
-    })();
-  </script>
+        tooltip.style.opacity = '1';
+        tooltip.style.left = (e.clientX - rect.left + 15) + 'px';
+        tooltip.style.top = (e.clientY - rect.top - 40) + 'px';
+        tooltip.innerHTML = `
+          <strong>Hashrate share: ${clampedShare.toFixed(1)}%</strong><br>
+          <span style="color:#aaaaaa;">Bitcoin: ${linearReward.toFixed(1)}%</span><br>
+          <span style="color:#4caf50;">ACCUM: ${logReward.toFixed(1)}%</span>
+        `;
+      } else {
+        tooltip.style.opacity = '0';
+      }
+    }
+    
+    canvas.addEventListener('mousemove', handleMouseMove);
+    canvas.addEventListener('mouseleave', () => {
+      tooltip.style.opacity = '0';
+    });
+    
+    window.addEventListener('load', resizeCanvas);
+    window.addEventListener('resize', resizeCanvas);
+  })();
+</script>
+    
 </body>
 </html>
