@@ -56,9 +56,9 @@
 
     header.site-header {
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      padding: 1rem 0;
+      padding: 1rem 2rem;
       margin-bottom: 2rem;
       border-bottom: 1px solid var(--color-primary-light);
       background-color: var(--color-primary);
@@ -74,6 +74,27 @@
       user-select: none;
       text-shadow: 0 0 8px var(--color-success);
       transition: color var(--transition-speed);
+    }
+
+    .lang-switch {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .lang-btn {
+      background: transparent;
+      border: 1px solid var(--color-success);
+      color: var(--color-accent);
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all var(--transition-speed);
+    }
+
+    .lang-btn.active {
+      background: var(--color-success);
+      color: var(--color-primary-dark);
     }
 
     h2 {
@@ -96,6 +117,7 @@
       margin-bottom: 2rem;
       box-shadow: 0 20px 40px rgba(76, 175, 80, 0.25);
       user-select: text;
+      text-align: center;
     }
 
     .hero h1 {
@@ -110,11 +132,20 @@
       font-weight: 300;
       margin-bottom: 1rem;
       max-width: 700px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .hero .lead span {
+      color: var(--color-warning);
+      font-weight: 600;
     }
 
     .hero .sublead {
       font-size: 1.3rem;
       max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
       opacity: 0.85;
     }
 
@@ -163,8 +194,7 @@
     .glance-grid,
     .tech-grid,
     .features-grid,
-    .roadmap-grid,
-    .contribute-grid {
+    .roadmap-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 1.8rem;
@@ -174,8 +204,7 @@
     .glance-item,
     .tech-item,
     .feature-card,
-    .roadmap-item,
-    .contribute-item {
+    .roadmap-item {
       background: var(--color-primary);
       border-radius: var(--border-radius);
       padding: 1.8rem;
@@ -246,48 +275,38 @@
       font-style: italic;
       user-select: none;
     }
-    
+
     table {
-  width: 100%;
-  border-collapse: collapse;
-  background: var(--color-primary);
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 6px 20px rgba(0, 40, 80, 0.3);
-  color: #ffffff;  /* ← белый текст */
-}
-
-th {
-  background: var(--color-success);
-  color: #000000;  /* ← чёрный текст на зелёном */
-  font-weight: 700;
-  padding: 1rem 1.3rem;
-  text-align: left;
-}
-
-td {
-  padding: 1rem 1.3rem;
-  border-bottom: 1px solid var(--color-primary-light);
-  color: #f0f0f0;  /* ← очень светлый серый */
-}
-
-td strong {
-  color: var(--color-success);
-}
-    th,
-    td {
-      padding: 1rem 1.3rem;
-      text-align: left;
-      border-bottom: 1px solid var(--color-primary-light);
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--color-primary);
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 40, 80, 0.3);
+      color: #ffffff;
     }
 
     th {
-      background: var(--color-primary-light);
+      background: var(--color-success);
+      color: #000000;
       font-weight: 700;
+      padding: 1rem 1.3rem;
+      text-align: left;
     }
 
-    tr:last-child td {
-      border-bottom: none;
+    td {
+      padding: 1rem 1.3rem;
+      border-bottom: 1px solid var(--color-primary-light);
+      color: #f0f0f0;
+    }
+
+    td:first-child {
+      font-weight: 600;
+      color: var(--color-warning);
+    }
+
+    td strong {
+      color: var(--color-success);
     }
 
     .button {
@@ -341,6 +360,23 @@ td strong {
       box-shadow: 0 4px 20px rgba(0, 100, 0, 0.6);
     }
 
+    .tokenomics-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 1.5rem 0;
+    }
+
+    .tokenomics-table th {
+      background: var(--color-success);
+      color: #000;
+      padding: 0.8rem;
+    }
+
+    .tokenomics-table td {
+      padding: 0.8rem;
+      border-bottom: 1px solid var(--color-primary-light);
+    }
+
     footer.footer {
       text-align: center;
       padding: 2rem 0;
@@ -349,6 +385,10 @@ td strong {
       font-size: 1rem;
       user-select: none;
       background-color: var(--color-primary);
+    }
+
+    .hidden {
+      display: none !important;
     }
 
     @media (max-width: 768px) {
@@ -364,13 +404,14 @@ td strong {
       .glance-grid,
       .tech-grid,
       .features-grid,
-      .roadmap-grid,
-      .contribute-grid {
+      .roadmap-grid {
         grid-template-columns: 1fr;
       }
 
       header.site-header {
-        padding: 0.75rem 0;
+        padding: 0.75rem 1rem;
+        flex-direction: column;
+        gap: 1rem;
       }
 
       .logo {
@@ -382,16 +423,22 @@ td strong {
 <body>
   <header class="site-header" role="banner">
     <div class="logo" aria-label="ACCUM logo">⚡ ACCUM</div>
+    <div class="lang-switch">
+      <button class="lang-btn active" data-lang="en">EN</button>
+      <button class="lang-btn" data-lang="ru">RU</button>
+    </div>
   </header>
 
   <main class="container" role="main">
     <!-- HERO SECTION -->
     <section class="hero" aria-labelledby="hero-title">
-      <h1 id="hero-title">Fair Proof-of-Work</h1>
-      <p class="lead">Bitcoin is a lottery. ACCUM is a salary.</p>
-      <p class="sublead">
-        Every miner gets paid every block. No more winners and losers — just fair,
-        predictable rewards.
+      <h1 id="hero-title" data-en="Fair Proof-of-Work" data-ru="Честный Proof-of-Work">Fair Proof-of-Work</h1>
+      <p class="lead">
+        <span data-en="Bitcoin is lottery. ACCUM is a salary." data-ru="Bitcoin — лотерея. ACCUM — зарплата.">Bitcoin is lottery. ACCUM is a salary.</span>
+      </p>
+      <p class="sublead" data-en="Every miner gets paid every block. No more winners and losers — just fair, predictable rewards." 
+         data-ru="Каждый майнер получает награду в каждом блоке. Больше нет победителей и проигравших — только честные, предсказуемые выплаты.">
+         Every miner gets paid every block. No more winners and losers — just fair, predictable rewards.
       </p>
 
       <div class="hero-grid" role="list">
@@ -416,126 +463,144 @@ td strong {
 
     <!-- ABOUT ACCUM -->
     <section class="section" aria-labelledby="about-title">
-      <h2 id="about-title">About ACCUM</h2>
-      <p>
-        ACCUM is a Layer-1 blockchain protocol introducing <strong>Fair Proof-of-Work (Fair PoW)</strong>: every participant miner receives proportional rewards every block, removing lottery elements from mining and enabling stable incomes.
+      <h2 id="about-title" data-en="About ACCUM" data-ru="О проекте ACCUM">About ACCUM</h2>
+      <p data-en="ACCUM is a Layer-1 blockchain protocol introducing Fair Proof-of-Work (Fair PoW): every participant miner receives proportional rewards every block, removing lottery elements from mining and enabling stable incomes."
+         data-ru="ACCUM — это блокчейн уровня 1, представляющий Fair Proof-of-Work (Честный PoW): каждый участвующий майнер получает пропорциональную награду в каждом блоке, устраняя лотерейный элемент майнинга и обеспечивая стабильный доход.">
+         ACCUM is a Layer-1 blockchain protocol introducing Fair Proof-of-Work (Fair PoW): every participant miner receives proportional rewards every block, removing lottery elements from mining and enabling stable incomes.
       </p>
-      <p><strong>Key features include:</strong></p>
+      <p><strong data-en="Key features include:" data-ru="Ключевые особенности:">Key features include:</strong></p>
       <ul>
-        <li><strong>Accumulative Mining:</strong> deterministic reward distribution to all miners per block.</li>
-        <li><strong>Concave Reward Function:</strong> logarithmic scaling that economically discourages 51% attacks and whale dominance.</li>
-        <li><strong>Proof-of-Contribution-and-Identity (PoCI):</strong> multi-metric reputation system for Sybil resistance.</li>
-        <li><strong>Ultra-Light Nodes:</strong> full verification with ~50 MB state size suitable for mobile devices and Raspberry Pi.</li>
-        <li><strong>Shard Streams:</strong> innovative hashrate futures providing instant miner liquidity and enabling native DeFi on PoW.</li>
+        <li data-en="Accumulative Mining: deterministic reward distribution to all miners per block." 
+            data-ru="Аккумулятивный майнинг: детерминированное распределение награды между всеми майнерами в каждом блоке.">
+            <strong>Accumulative Mining:</strong> deterministic reward distribution to all miners per block.
+        </li>
+        <li data-en="Concave Reward Function: logarithmic scaling that economically discourages 51% attacks and whale dominance."
+            data-ru="Вогнутая функция награды: логарифмическое масштабирование, которое экономически препятствует атакам 51% и доминированию китов.">
+            <strong>Concave Reward Function:</strong> logarithmic scaling that economically discourages 51% attacks and whale dominance.
+        </li>
+        <li data-en="Proof-of-Contribution-and-Identity (PoCI): multi-metric reputation system for Sybil resistance."
+            data-ru="Proof-of-Contribution-and-Identity (PoCI): многокомпонентная система репутации для защиты от Sybil-атак.">
+            <strong>Proof-of-Contribution-and-Identity (PoCI):</strong> multi-metric reputation system for Sybil resistance.
+        </li>
+        <li data-en="Ultra-Light Nodes: full verification with ~50 MB state size suitable for mobile devices and Raspberry Pi."
+            data-ru="Ultra-Light Nodes: полная верификация с состоянием ~50 МБ, подходит для мобильных устройств и Raspberry Pi.">
+            <strong>Ultra-Light Nodes:</strong> full verification with ~50 MB state size suitable for mobile devices and Raspberry Pi.
+        </li>
+        <li data-en="Shard Streams: innovative hashrate futures providing instant miner liquidity and enabling native DeFi on PoW."
+            data-ru="Shard Streams: инновационные фьючерсы на хешрейт, обеспечивающие мгновенную ликвидность майнеров и нативный DeFi на PoW.">
+            <strong>Shard Streams:</strong> innovative hashrate futures providing instant miner liquidity and enabling native DeFi on PoW.
+        </li>
       </ul>
-      <p><strong>Token:</strong> $ACM • Maximum supply: 21,000,000<br />
-      <strong>Launch date:</strong> February 2026 • <a href="https://github.com/andreudumitro-eng/ACCUM/blob/main/whitepaper/en/ACCUM_whitepaper_v2.1.md" target="_blank" class="button outline" style="font-size:1rem; padding:0.6rem 1.2rem; border-radius:16px;">Read Whitepaper</a></p>
+      <p>
+        <strong>Token:</strong> $ACM • Maximum supply: 21,000,000<br />
+        <strong data-en="Launch date:" data-ru="Дата запуска:">Launch date:</strong> February 2026
+      </p>
     </section>
 
     <!-- ACCUM AT A GLANCE -->
     <section class="section" aria-labelledby="glance-title">
-      <h2 id="glance-title">⚡ ACCUM at a glance</h2>
+      <h2 id="glance-title" data-en="⚡ ACCUM at a glance" data-ru="⚡ ACCUM вкратце">⚡ ACCUM at a glance</h2>
       <div class="glance-grid">
         <article class="glance-item">
-          <strong>Fair Launch</strong><br />
+          <strong data-en="Fair Launch" data-ru="Честный запуск">Fair Launch</strong><br />
           February 2026<br />
-          <small>no premine, no allocation</small>
+          <small data-en="no premine, no allocation" data-ru="без премайна, без аллокаций">no premine, no allocation</small>
         </article>
         <article class="glance-item">
-          <strong>Algorithm</strong><br />
+          <strong data-en="Algorithm" data-ru="Алгоритм">Algorithm</strong><br />
           Argon2id<br />
-          <small>memory‑hard, ASIC‑resistant</small>
+          <small data-en="memory‑hard, ASIC‑resistant" data-ru="ресурсоёмкий, ASIC-устойчивый">memory‑hard, ASIC‑resistant</small>
         </article>
         <article class="glance-item">
-          <strong>Consensus</strong><br />
+          <strong data-en="Consensus" data-ru="Консенсус">Consensus</strong><br />
           Proof‑of‑Work<br />
-          <small>Accumulative + Concave</small>
+          <small data-en="Accumulative + Concave" data-ru="Аккумулятивный + Вогнутый">Accumulative + Concave</small>
         </article>
         <article class="glance-item">
-          <strong>Platforms</strong><br />
+          <strong data-en="Platforms" data-ru="Платформы">Platforms</strong><br />
           Windows, Linux, macOS<br />
-          <small>RPi, Android (soon)</small>
+          <small data-en="RPi, Android (soon)" data-ru="RPi, Android (скоро)">RPi, Android (soon)</small>
         </article>
         <article class="glance-item">
           <strong>TICKER</strong><br />
           $ACM
         </article>
         <article class="glance-item">
-          <strong>Block time (testnet)</strong><br />
+          <strong data-en="Block time (testnet)" data-ru="Время блока (тестнет)">Block time (testnet)</strong><br />
           ~60 seconds
         </article>
         <article class="glance-item">
-          <strong>MAX SUPPLY</strong><br />
+          <strong data-en="MAX SUPPLY" data-ru="МАКС. ПРЕДЛОЖЕНИЕ">MAX SUPPLY</strong><br />
           21 000 000
         </article>
         <article class="glance-item">
-          <strong>Network Status</strong><br />
-          2 nodes · 62 blocks · 18 tx
+          <strong data-en="Network Status" data-ru="Статус сети">Network Status</strong><br />
+          <span data-net-nodes>2</span> <span data-en="nodes" data-ru="ноды">nodes</span> · <span data-net-blocks>62</span> <span data-en="blocks" data-ru="блоков">blocks</span> · <span data-net-tx>18</span> <span data-en="tx" data-ru="транзакций">tx</span>
         </article>
       </div>
     </section>
 
     <!-- TECHNICAL SPECIFICATIONS -->
     <section class="section" aria-labelledby="tech-title">
-      <h2 id="tech-title">⚙️ Technical specifications (testnet)</h2>
+      <h2 id="tech-title" data-en="⚙️ Technical specifications (testnet)" data-ru="⚙️ Технические характеристики (тестнет)">⚙️ Technical specifications (testnet)</h2>
       <div class="tech-grid">
         <article class="tech-item">
-          <strong>Hash algorithm</strong><br />
+          <strong data-en="Hash algorithm" data-ru="Алгоритм хеширования">Hash algorithm</strong><br />
           Argon2id<br />
-          <small>memory‑hard</small>
+          <small data-en="memory‑hard" data-ru="ресурсоёмкий">memory‑hard</small>
         </article>
         <article class="tech-item">
-          <strong>Shard target</strong><br />
+          <strong data-en="Shard target" data-ru="Цель шарда">Shard target</strong><br />
           00ffff...<br />
-          <small>very easy</small>
+          <small data-en="very easy" data-ru="очень легко">very easy</small>
         </article>
         <article class="tech-item">
-          <strong>Block target</strong><br />
+          <strong data-en="Block target" data-ru="Цель блока">Block target</strong><br />
           00ffff...<br />
-          <small>very easy</small>
+          <small data-en="very easy" data-ru="очень легко">very easy</small>
         </article>
         <article class="tech-item">
-          <strong>Time per shard</strong><br />
+          <strong data-en="Time per shard" data-ru="Время на шард">Time per shard</strong><br />
           instant<br />
-          <small>nonce up to 5000</small>
+          <small data-en="nonce up to 5000" data-ru="nonce до 5000">nonce up to 5000</small>
         </article>
         <article class="tech-item">
-          <strong>Block time</strong><br />
+          <strong data-en="Block time" data-ru="Время блока">Block time</strong><br />
           10–60 seconds
         </article>
         <article class="tech-item">
-          <strong>Shards per block</strong><br />
+          <strong data-en="Shards per block" data-ru="Шардов на блок">Shards per block</strong><br />
           20–40
         </article>
         <article class="tech-item">
-          <strong>Block reward</strong><br />
+          <strong data-en="Block reward" data-ru="Награда за блок">Block reward</strong><br />
           50 ACM
         </article>
         <article class="tech-item">
-          <strong>Platforms</strong><br />
+          <strong data-en="Platforms" data-ru="Платформы">Platforms</strong><br />
           Windows, Linux, macOS
         </article>
         <article class="tech-item">
-          <strong>Min. requirements</strong><br />
+          <strong data-en="Min. requirements" data-ru="Мин. требования">Min. requirements</strong><br />
           2 cores, 2 GB RAM
         </article>
         <article class="tech-item">
-          <strong>Node size</strong><br />
+          <strong data-en="Node size" data-ru="Размер ноды">Node size</strong><br />
           ~1–2 MB<br />
-          <small>will be &lt; 50 MB</small>
+          <small data-en="will be < 50 MB" data-ru="будет < 50 МБ">will be &lt; 50 MB</small>
         </article>
       </div>
     </section>
 
     <!-- INTERACTIVE CHART WITH MOUSE TOOLTIP -->
     <section class="section" aria-labelledby="chart-title">
-      <h2 id="chart-title">📈 Concave rewards (logarithmic curve)</h2>
+      <h2 id="chart-title" data-en="📈 Concave rewards (logarithmic curve)" data-ru="📈 Вогнутые награды (логарифмическая кривая)">📈 Concave rewards (logarithmic curve)</h2>
       <p>
-        <strong>ACCUM formula:</strong> R(n) = k · log(1 + n), where n is miner's share of the network.
+        <strong data-en="ACCUM formula:" data-ru="Формула ACCUM:">ACCUM formula:</strong> R(n) = k·log(1 + n), where n is miner's share of the network.
       </p>
-      <p>
-        The derivative dR/dn = k/(1+n) decreases, making dominance less profitable and 51%
-        attacks economically irrational.
+      <p data-en="The derivative dR/dn = k/(1+n) decreases, making dominance less profitable and 51% attacks economically irrational."
+         data-ru="Производная dR/dn = k/(1+n) убывает, что делает доминирование менее выгодным, а атаки 51% экономически нерациональными.">
+         The derivative dR/dn = k/(1+n) decreases, making dominance less profitable and 51% attacks economically irrational.
       </p>
 
       <div class="chart-container">
@@ -543,47 +608,155 @@ td strong {
         <div id="chartTooltip" class="chart-tooltip" role="tooltip" aria-hidden="true"></div>
       </div>
 
-      <div class="graph-caption">
+      <div class="graph-caption" data-en="Green line — ACCUM logarithmic model | Dashed line — Bitcoin linear model"
+           data-ru="Зеленая линия — логарифмическая модель ACCUM | Пунктир — линейная модель Bitcoin">
         Green line — ACCUM logarithmic model | Dashed line — Bitcoin linear model
       </div>
     </section>
 
-    <!-- 5 CORE INNOVATIONS -->
-    <section class="section" aria-labelledby="innovations-title">
-      <h2 id="innovations-title">🔷 5 core innovations</h2>
-      <div class="features-grid">
-        <article class="feature-card" tabindex="0">
-          <h3>⛏️ Accumulative Mining</h3>
-          <p>Every miner receives a reward for every block. No lottery — stable income for all participants.</p>
-        </article>
-        <article class="feature-card" tabindex="0">
-          <h3>📉 Concave Rewards</h3>
-          <p>Logarithmic reward curve makes 51% attacks economically unprofitable.</p>
-        </article>
-        <article class="feature-card" tabindex="0">
-          <h3>🆔 PoCI</h3>
-          <p>
-            Proof-of-Contribution-and-Identity — multi‑metric reputation (uptime, age,
-            verification) for Sybil resistance.
-          </p>
-        </article>
-        <article class="feature-card" tabindex="0">
-          <h3>💧 Shard Streams</h3>
-          <p>Hashrate futures for instant miner liquidity. Native DeFi layer on PoW.</p>
-        </article>
-        <article class="feature-card" tabindex="0">
-          <h3>📱 Ultra‑Light Nodes</h3>
-          <p>Full verification with ~50 MB state. Runs on mobile phones and Raspberry Pi.</p>
-        </article>
-      </div>
+    <!-- ECONOMIC MODEL (moved under chart) -->
+    <section class="section" aria-labelledby="economic-title">
+      <h2 id="economic-title" data-en="🔐 Economic model" data-ru="🔐 Экономическая модель">🔐 Economic model</h2>
+      <p><strong>Bitcoin (linear):</strong> E = α·B — reward scales linearly with hashrate share, encouraging centralization.</p>
+      <p><strong>ACCUM (logarithmic):</strong> R(n) = k·log(1+n) — increasing hashrate gives diminishing returns:</p>
+      <ul style="margin-left: 1.5rem;">
+        <li data-en="10× hashrate → ~3× reward" data-ru="10× хешрейт → ~3× награда">10× hashrate → ~3× reward</li>
+        <li data-en="100× hashrate → ~5× reward" data-ru="100× хешрейт → ~5× награда">100× hashrate → ~5× reward</li>
+        <li data-en="51% attack requires 51% hashrate but yields <51% reward" data-ru="Атака 51% требует 51% хешрейта, но дает <51% награды">51% attack requires 51% hashrate but yields &lt;51% reward</li>
+      </ul>
     </section>
 
-    <!-- TWO-NODE MINING (LIVE LOGS) -->
+    <!-- COMPARISON TABLE (moved under Economic model) -->
+    <section class="section" aria-labelledby="comparison-title">
+      <h2 id="comparison-title" data-en="🔍 Comparison with other PoW" data-ru="🔍 Сравнение с другими PoW">🔍 Comparison with other PoW</h2>
+      <table role="table" aria-describedby="comparison-description">
+        <caption id="comparison-description" class="visually-hidden" style="display:none;">
+          Comparison of reward models, premine, sybil resistance, and node size across Bitcoin,
+          Kaspa, Monero, and ACCUM.
+        </caption>
+        <thead>
+          <tr>
+            <th scope="col" data-en="Parameter" data-ru="Параметр">Parameter</th>
+            <th scope="col">Bitcoin</th>
+            <th scope="col">Kaspa</th>
+            <th scope="col">Monero</th>
+            <th scope="col">ACCUM</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-en="Reward Model" data-ru="Модель наград">Reward Model</td>
+            <td data-en="Linear Lottery" data-ru="Линейная лотерея">Linear Lottery</td>
+            <td data-en="Block DAG Linear" data-ru="Block DAG Линейная">Block DAG Linear</td>
+            <td data-en="Linear Lottery" data-ru="Линейная лотерея">Linear Lottery</td>
+            <td><strong data-en="Concave Accumulative" data-ru="Вогнутая Аккумулятивная">Concave Accumulative</strong></td>
+          </tr>
+          <tr>
+            <td data-en="Premine" data-ru="Премайн">Premine</td>
+            <td data-en="No" data-ru="Нет">No</td>
+            <td data-en="No" data-ru="Нет">No</td>
+            <td data-en="No" data-ru="Нет">No</td>
+            <td><strong data-en="No" data-ru="Нет">No</strong></td>
+          </tr>
+          <tr>
+            <td data-en="Reward per Block" data-ru="Награда за блок">Reward per Block</td>
+            <td data-en="1 winner" data-ru="1 победитель">1 winner</td>
+            <td data-en="1 winner" data-ru="1 победитель">1 winner</td>
+            <td data-en="1 winner" data-ru="1 победитель">1 winner</td>
+            <td><strong data-en="All participants" data-ru="Все участники">All participants</strong></td>
+          </tr>
+          <tr>
+            <td data-en="Sybil Resistance" data-ru="Sybil-устойчивость">Sybil Resistance</td>
+            <td data-en="None" data-ru="Нет">None</td>
+            <td data-en="None" data-ru="Нет">None</td>
+            <td data-en="None" data-ru="Нет">None</td>
+            <td><strong>PoCI</strong></td>
+          </tr>
+          <tr>
+            <td data-en="51% Attack Disincentive" data-ru="Сдерживание атак 51%">51% Attack Disincentive</td>
+            <td data-en="No" data-ru="Нет">No</td>
+            <td data-en="No" data-ru="Нет">No</td>
+            <td data-en="No" data-ru="Нет">No</td>
+            <td><strong data-en="Yes (concave)" data-ru="Да (вогнутость)">Yes (concave)</strong></td>
+          </tr>
+          <tr>
+            <td data-en="Ultra‑Light Node" data-ru="Ultra‑Light нода">Ultra‑Light Node</td>
+            <td data-en="No" data-ru="Нет">No</td>
+            <td data-en="No" data-ru="Нет">No</td>
+            <td data-en="No" data-ru="Нет">No</td>
+            <td><strong>~50 MB</strong></td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- TOKENOMICS (new section from whitepaper) -->
+    <section class="section" aria-labelledby="tokenomics-title">
+      <h2 id="tokenomics-title" data-en="📊 Tokenomics" data-ru="📊 Токеномика">📊 Tokenomics</h2>
+      <table class="tokenomics-table">
+        <tr>
+          <th data-en="Parameter" data-ru="Параметр">Parameter</th>
+          <th data-en="Specification" data-ru="Значение">Specification</th>
+        </tr>
+        <tr>
+          <td><strong>Ticker</strong></td>
+          <td>$ACM</td>
+        </tr>
+        <tr>
+          <td><strong data-en="Max Supply" data-ru="Макс. предложение">Max Supply</strong></td>
+          <td>21,000,000</td>
+        </tr>
+        <tr>
+          <td><strong data-en="Genesis Block Reward" data-ru="Награда за генезис-блок">Genesis Block Reward</strong></td>
+          <td>50 ACM</td>
+        </tr>
+        <tr>
+          <td><strong data-en="Halving Interval" data-ru="Интервал халвинга">Halving Interval</strong></td>
+          <td data-en="210,000 blocks (~2 years)" data-ru="210,000 блоков (~2 года)">210,000 blocks (~2 years)</td>
+        </tr>
+      </table>
+      
+      <h3 style="color: var(--color-success); margin-top: 2rem;" data-en="Initial Distribution" data-ru="Начальное распределение">Initial Distribution</h3>
+      <table class="tokenomics-table">
+        <tr>
+          <th data-en="Allocation" data-ru="Аллокация">Allocation</th>
+          <th data-en="Percentage" data-ru="Процент">Percentage</th>
+          <th data-en="Amount" data-ru="Количество">Amount</th>
+          <th data-en="Vesting" data-ru="Вестинг">Vesting</th>
+        </tr>
+        <tr>
+          <td data-en="Mining Rewards" data-ru="Майнинг награды">Mining Rewards</td>
+          <td>80%</td>
+          <td>16,800,000</td>
+          <td data-en="Emitted over ~120 years" data-ru="Эмиссия ~120 лет">Emitted over ~120 years</td>
+        </tr>
+        <tr>
+          <td data-en="Core Team" data-ru="Команда">Core Team</td>
+          <td>10%</td>
+          <td>2,100,000</td>
+          <td data-en="4‑year linear vesting" data-ru="4 года линейно">4‑year linear vesting</td>
+        </tr>
+        <tr>
+          <td data-en="Foundation Treasury" data-ru="Казна фонда">Foundation Treasury</td>
+          <td>5%</td>
+          <td>1,050,000</td>
+          <td data-en="2‑year lock" data-ru="Заморозка на 2 года">2‑year lock</td>
+        </tr>
+        <tr>
+          <td data-en="Community & Ecosystem" data-ru="Сообщество и экосистема">Community & Ecosystem</td>
+          <td>5%</td>
+          <td>1,050,000</td>
+          <td data-en="Airdrop, grants" data-ru="Airdrop, гранты">Airdrop, grants</td>
+        </tr>
+      </table>
+    </section>
+
+    <!-- TWO-NODE MINING (LIVE LOGS) - renamed from Live broadcast -->
     <section class="section" aria-labelledby="mining-title">
-      <h2 id="mining-title">⛏️ Two‑node mining (live testnet)</h2>
-      <p>Run two nodes with a single command:</p>
+      <h2 id="mining-title" data-en="⛏️ Two‑node mining (test results)" data-ru="⛏️ Двухнодовый майнинг (результаты тестов)">⛏️ Two‑node mining (test results)</h2>
+      <p data-en="Run two nodes with a single command:" data-ru="Запустите две ноды одной командой:">Run two nodes with a single command:</p>
       <pre class="code-block" tabindex="0">python accum.py</pre>
-      <p>Live output from the testnet:</p>
+      <p data-en="Test results from the prototype:" data-ru="Результаты тестирования прототипа:">Test results from the prototype:</p>
       <pre class="code-block" tabindex="0">
 [Node1] Address: a87df5988f2728f1e110c14644144252a49e39c2
 [Node2] Address: 71e37af1536860593bc8f64282207818b7c6294a
@@ -596,172 +769,136 @@ td strong {
 [Node1] 📦 Assembling block from 32 shards, 0 tx
 [Node1] ⛏ Mining block...
 [Node1] ✅ Block 1 saved, hash 385ba362f2f8d707
-[Node2] 💸 Test transaction d4c97e95 (10 coins) to a87df598
-      </pre>
+[Node2] 💸 Test transaction d4c97e95 (10 coins) to a87df598</pre>
+      <p><em data-en="The project is still in active testing phase. These results demonstrate the core mechanics working as designed." 
+            data-ru="Проект находится в активной фазе тестирования. Эти результаты демонстрируют работу базовой механики.">
+         The project is still in active testing phase. These results demonstrate the core mechanics working as designed.</em>
+      </p>
       <div style="margin-top: 1.5rem;">
-       <a href="https://github.com/andreudumitro-eng/ACCUM" class="button">📦 Download accum.py</a>
-        <a href="#install" class="button outline" role="button">Quick start guide</a>
+        <a href="https://github.com/andreudumitro-eng/ACCUM" class="button" role="button">📦 Download accum.py</a>
+        <a href="#install" class="button outline" role="button" data-en="Quick start guide" data-ru="Быстрый старт">Quick start guide</a>
       </div>
     </section>
 
-    <!-- TESTNET STATUS -->
+    <!-- TESTNET STATUS (updated) -->
     <section class="section" aria-labelledby="testnet-title">
-      <h2 id="testnet-title">✅ Live testnet (Q1 2026)</h2>
-      <div
-        style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem"
-      >
+      <h2 id="testnet-title" data-en="✅ Live testnet (Q1 2026)" data-ru="✅ Живой тестнет (Q1 2026)">✅ Live testnet (Q1 2026)</h2>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem">
         <div class="glance-item">
           <strong>62</strong><br />
-          blocks
+          <span data-en="blocks" data-ru="блоков">blocks</span>
         </div>
         <div class="glance-item">
           <strong>18</strong><br />
-          transactions
+          <span data-en="transactions" data-ru="транзакций">transactions</span>
         </div>
         <div class="glance-item">
           <strong>2</strong><br />
-          active nodes
+          <span data-en="active nodes" data-ru="активных нод">active nodes</span>
         </div>
       </div>
       <ul style="margin-left: 1.5rem;">
-        <li>✅ Two independent nodes (ports 12345, 12346) running continuously</li>
-        <li>✅ Blocks produced every ~60 seconds</li>
-        <li>✅ Test transfers of 10 ACM are confirmed on-chain</li>
-        <li>✅ P2P shard and block exchange fully functional</li>
-        <li>✅ Logs and demo available upon request</li>
+        <li data-en="✅ Two independent nodes (ports 12345, 12346) running continuously" 
+            data-ru="✅ Две независимые ноды (порты 12345, 12346) работают непрерывно">
+            ✅ Two independent nodes (ports 12345, 12346) running continuously
+        </li>
+        <li data-en="✅ Blocks produced every ~60 seconds" 
+            data-ru="✅ Блоки производятся каждые ~60 секунд">
+            ✅ Blocks produced every ~60 seconds
+        </li>
+        <li data-en="✅ Test transfers of 10 ACM are confirmed on-chain" 
+            data-ru="✅ Тестовые переводы 10 ACM подтверждаются в сети">
+            ✅ Test transfers of 10 ACM are confirmed on-chain
+        </li>
+        <li data-en="✅ P2P shard and block exchange fully functional" 
+            data-ru="✅ P2P обмен шардами и блоками полностью функционален">
+            ✅ P2P shard and block exchange fully functional
+        </li>
       </ul>
     </section>
 
-    <!-- COMPARISON TABLE -->
-    <section class="section" aria-labelledby="comparison-title">
-      <h2 id="comparison-title">🔍 Comparison with other PoW</h2>
-      <table role="table" aria-describedby="comparison-description">
-        <caption id="comparison-description" class="visually-hidden" style="display:none;">
-          Comparison of reward models, premine, sybil resistance, and node size across Bitcoin,
-          Kaspa, Monero, and ACCUM.
-        </caption>
-        <thead>
-          <tr>
-            <th scope="col">Parameter</th>
-            <th scope="col">Bitcoin</th>
-            <th scope="col">Kaspa</th>
-            <th scope="col">Monero</th>
-            <th scope="col">ACCUM</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Reward Model</td>
-            <td>Linear Lottery</td>
-            <td>Block DAG Linear</td>
-            <td>Linear Lottery</td>
-            <td><strong>Concave Accumulative</strong></td>
-          </tr>
-          <tr>
-            <td>Premine</td>
-            <td>No</td>
-            <td>No</td>
-            <td>No</td>
-            <td><strong>No</strong></td>
-          </tr>
-          <tr>
-            <td>Reward per Block</td>
-            <td>1 winner</td>
-            <td>1 winner</td>
-            <td>1 winner</td>
-            <td><strong>All participants</strong></td>
-          </tr>
-          <tr>
-            <td>Sybil Resistance</td>
-            <td>None</td>
-            <td>None</td>
-            <td>None</td>
-            <td><strong>PoCI</strong></td>
-          </tr>
-          <tr>
-            <td>51% Attack Disincentive</td>
-            <td>No</td>
-            <td>No</td>
-            <td>No</td>
-            <td><strong>Yes (concave)</strong></td>
-          </tr>
-          <tr>
-            <td>Ultra‑Light Node</td>
-            <td>No</td>
-            <td>No</td>
-            <td>No</td>
-            <td><strong>~50 MB</strong></td>
-          </tr>
-        </tbody>
+    <!-- PoCI DETAILS (new from whitepaper) -->
+    <section class="section" aria-labelledby="poci-title">
+      <h2 id="poci-title" data-en="🆔 Proof-of-Contribution-and-Identity (PoCI)" data-ru="🆔 Proof-of-Contribution-and-Identity (PoCI)">🆔 Proof-of-Contribution-and-Identity (PoCI)</h2>
+      <p data-en="PoCI establishes a composite reputation score:"
+         data-ru="PoCI создает составной рейтинг репутации:">
+         PoCI establishes a composite reputation score:
+      </p>
+      <p style="font-family: monospace; font-size: 1.2rem; background: var(--color-primary-dark); padding: 1rem; border-radius: 12px;">
+        S = w₁Cₕₐₛₕ + w₂Tᵤₚ + w₃Vₜₓ + w₄B_w + w₅Aₙₑₜ + w₆Hₕᵢₛₜ
+      </p>
+      <table style="margin-top: 1rem;">
+        <tr>
+          <th data-en="Component" data-ru="Компонент">Component</th>
+          <th data-en="Weight" data-ru="Вес">Weight</th>
+          <th data-en="Description" data-ru="Описание">Description</th>
+        </tr>
+        <tr><td>Hashrate</td><td>40%</td><td data-en="Validated hashrate contribution" data-ru="Подтвержденный хешрейт">Validated hashrate contribution</td></tr>
+        <tr><td>Uptime</td><td>20%</td><td data-en="Node uptime and responsiveness" data-ru="Аптайм и отзывчивость ноды">Node uptime and responsiveness</td></tr>
+        <tr><td>Transactions verified</td><td>15%</td><td data-en="Volume of verified/propagated transactions" data-ru="Количество проверенных/переданных транзакций">Volume of verified/propagated transactions</td></tr>
+        <tr><td>Bandwidth</td><td>10%</td><td data-en="Contribution to peers" data-ru="Вклад в пиры">Contribution to peers</td></tr>
+        <tr><td>Network age</td><td>10%</td><td data-en="Chronological age of the node" data-ru="Хронологический возраст ноды">Chronological age of the node</td></tr>
+        <tr><td>Honest history</td><td>5%</td><td data-en="Adherence to protocol rules" data-ru="Соблюдение правил протокола">Adherence to protocol rules</td></tr>
       </table>
     </section>
 
-    <!-- ECONOMIC MODEL -->
-    <section class="section" aria-labelledby="economic-title">
-      <h2 id="economic-title">🔐 Economic model</h2>
-      <p><strong>Bitcoin (linear):</strong> E = α·B — reward scales linearly with hashrate share, encouraging centralization.</p>
-      <p><strong>ACCUM (logarithmic):</strong> R(n) = k·log(1+n) — increasing hashrate gives diminishing returns:</p>
-      <ul style="margin-left: 1.5rem;">
-        <li>10× hashrate → ~3× reward</li>
-        <li>100× hashrate → ~5× reward</li>
-        <li>51% attack requires 51% hashrate but yields &lt;51% reward</li>
+    <!-- SHARD STREAMS (new from whitepaper) -->
+    <section class="section" aria-labelledby="shard-title">
+      <h2 id="shard-title" data-en="💧 Shard Streams (Hashrate Futures)" data-ru="💧 Shard Streams (Фьючерсы на хешрейт)">💧 Shard Streams (Hashrate Futures)</h2>
+      <p data-en="Tokenization of future rewards for instant miner liquidity:"
+         data-ru="Токенизация будущих наград для мгновенной ликвидности майнеров:">
+         Tokenization of future rewards for instant miner liquidity:
+      </p>
+      <ul>
+        <li><strong data-en="Instrument:" data-ru="Инструмент:">Instrument:</strong> <span data-en="Non-fungible token representing future reward claim" 
+              data-ru="Невзаимозаменяемый токен, представляющий право на будущую награду">Non-fungible token representing future reward claim</span></li>
+        <li><strong data-en="Unit:" data-ru="Единица:">Unit:</strong> 0.0001 ACM per block for one year</li>
+        <li><strong data-en="Typical price:" data-ru="Типичная цена:">Typical price:</strong> 5 ACM (~30% discount to NPV)</li>
       </ul>
     </section>
 
     <!-- ROADMAP -->
     <section class="section" aria-labelledby="roadmap-title">
-      <h2 id="roadmap-title">🗺️ Roadmap</h2>
+      <h2 id="roadmap-title" data-en="🗺️ Roadmap" data-ru="🗺️ Дорожная карта">🗺️ Roadmap</h2>
       <div class="roadmap-grid">
         <article class="roadmap-item">
           <strong>Q3 2026</strong><br />
-          Public testnet<br />
-          <small>Open for everyone</small>
+          <span data-en="Public testnet" data-ru="Публичный тестнет">Public testnet</span><br />
+          <small data-en="Open for everyone" data-ru="Открыт для всех">Open for everyone</small>
         </article>
         <article class="roadmap-item">
           <strong>Q4 2026</strong><br />
-          Security audit<br />
-          <small>2 independent firms</small>
+          <span data-en="Security audit" data-ru="Аудит безопасности">Security audit</span><br />
+          <small data-en="2 independent firms" data-ru="2 независимые фирмы">2 independent firms</small>
         </article>
         <article class="roadmap-item">
           <strong>Q1 2027</strong><br />
-          Mainnet Launch<br />
-          <small>Genesis block</small>
+          <span data-en="Mainnet Launch" data-ru="Запуск мейннета">Mainnet Launch</span><br />
+          <small data-en="Genesis block" data-ru="Генезис-блок">Genesis block</small>
         </article>
         <article class="roadmap-item">
           <strong>Q2 2027</strong><br />
-          Shard Streams<br />
-          <small>DeFi layer on PoW</small>
+          <span data-en="Shard Streams" data-ru="Shard Streams">Shard Streams</span><br />
+          <small data-en="DeFi layer on PoW" data-ru="DeFi слой на PoW">DeFi layer on PoW</small>
         </article>
       </div>
     </section>
 
-    <!-- CONTRIBUTE -->
+    <!-- CONTACT & LINKS (updated with more buttons) -->
     <section class="section">
-      <h2>🧑‍💻 Contribute</h2>
-      <p>ACCUM is a community project. Join us!</p>
-      <div class="contribute-grid">
-        <div class="contribute-item"><strong>🦀 Rust developers</strong><br />Core protocol, P2P, consensus</div>
-        <div class="contribute-item"><strong>🐍 Python testers</strong><br />Testnet, bug hunting, optimization</div>
-        <div class="contribute-item"><strong>📝 Documentation</strong><br />Translations, guides, articles</div>
-      </div>
-      <a href="https://github.com/andreudumitro-eng/ACCUM/issues" class="button">📌 GitHub Issues</a>
-    </section>
-
-    <!-- CONTACT & LINKS -->
-    <section class="section">
-      <h2>📚 Source code & whitepaper</h2>
-      < a href="https://github.com/andreudumitro-eng/ACCUM" class="button">📦 GitHub</a>
-    <a href="https://github.com/andreudumitro-eng/ACCUM/blob/main/whitepaper/en/ACCUM_whitepaper_v2.1.md" target="_blank" class="button outline">Read Whitepaper</a>
-Whitepaper (EN)</a>
-<a href="https://github.com/andreudumitro-eng/ACCUM/blob/main/whitepaper/ru/ACCUM_whitepaper_v2.1.md" class="button outline">📄 Whitepaper (RU)</a>
+      <h2 data-en="📚 Source code & whitepaper" data-ru="📚 Исходный код и вайтпейпер">📚 Source code & whitepaper</h2>
+      <a href="https://github.com/andreudumitro-eng/ACCUM" class="button">📦 GitHub</a>
+      <a href="https://github.com/andreudumitro-eng/ACCUM/blob/main/whitepaper/en/ACCUM_whitepaper_v2.1.md" class="button outline">📄 Whitepaper (EN)</a>
+      <a href="https://github.com/andreudumitro-eng/ACCUM/blob/main/whitepaper/ru/ACCUM_whitepaper_v2.1.md" class="button outline">📄 Whitepaper (RU)</a>
+      <a href="#" class="button outline" data-en="📱 accum.site" data-ru="📱 accum.site">📱 accum.site</a>
       <div style="margin-top:1.5rem;">
-        📧 <strong>andreudumitro@gmail.com</strong> | 🐦<a href="https://twitter.com/Andredumitro" target="_blank">@Andredumitro</a>
+        📧 <strong>andreudumitro@gmail.com</strong> | 🐦 <a href="https://twitter.com/Andredumitro" target="_blank" style="color: var(--color-success);">@Andredumitro</a>
       </div>
     </section>
 
     <!-- QUICK START -->
     <section class="section" id="install">
-      <h2>📦 Quick start</h2>
+      <h2 data-en="📦 Quick start" data-ru="📦 Быстрый старт">📦 Quick start</h2>
       <pre class="code-block">
 # 1. Clone the repository
 git clone https://github.com/andreudumitro-eng/ACCUM.git
@@ -777,133 +914,213 @@ python accum.py
 
     <!-- FOOTER -->
     <footer class="footer">
-      <p>© 2026 Andrii Dumitro — ACCUM. Open source · Fair launch · No premine</p>
-      <p style="margin-top:0.5rem;">⚡ Version 2.1 — Fully aligned with the whitepaper</p>
+      <p>© 2026 Andrii Dumitro — ACCUM. <span data-en="Open source · Fair launch · No premine" data-ru="Открытый код · Честный запуск · Без премайна">Open source · Fair launch · No premine</span></p>
+      <p style="margin-top:0.5rem;">⚡ <span data-en="Version 2.1 — Fully aligned with the whitepaper" data-ru="Версия 2.1 — Полное соответствие вайтпейперу">Version 2.1 — Fully aligned with the whitepaper</span></p>
     </footer>
   </main>
 
-  <!-- CHART WITH INTERACTIVE TOOLTIP -->
-   <script>
-  (function() {
-    const canvas = document.getElementById('rewardChart');
-    const tooltip = document.getElementById('chartTooltip');
-    
-    if (!canvas || !tooltip) return;
-    
-    const ctx = canvas.getContext('2d');
-    let w, h;
-    
-    function resizeCanvas() {
-      w = canvas.clientWidth;
-      h = 320;
-      canvas.width = w;
-      canvas.height = h;
-      drawChart();
-    }
-    
-    function drawChart() {
-      ctx.clearRect(0, 0, w, h);
+  <script>
+    (function() {
+      // Language switching functionality
+      const langBtns = document.querySelectorAll('.lang-btn');
+      const elements = document.querySelectorAll('[data-en][data-ru]');
       
-      const pad = { left: 60, right: 20, top: 20, bottom: 30 };
-      const gw = w - pad.left - pad.right;
-      const gh = h - pad.top - pad.bottom;
+      function setLanguage(lang) {
+        elements.forEach(el => {
+          if (el.tagName === 'INPUT' || el.tagName === 'TEXTAREA' || el.tagName === 'SELECT') {
+            el.placeholder = el.getAttribute(`data-${lang}`);
+          } else {
+            el.textContent = el.getAttribute(`data-${lang}`);
+          }
+        });
+        
+        // Update button states
+        langBtns.forEach(btn => {
+          if (btn.dataset.lang === lang) {
+            btn.classList.add('active');
+          } else {
+            btn.classList.remove('active');
+          }
+        });
+        
+        // Store preference
+        localStorage.setItem('preferred-language', lang);
+      }
       
-      // Grid
-      ctx.strokeStyle = "#555";
-      ctx.lineWidth = 0.5;
-      for (let i = 0; i <= 5; i++) {
-        let y = pad.top + (i / 5) * gh;
+      langBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          setLanguage(btn.dataset.lang);
+        });
+      });
+      
+      // Check for stored preference
+      const storedLang = localStorage.getItem('preferred-language');
+      if (storedLang && ['en', 'ru'].includes(storedLang)) {
+        setLanguage(storedLang);
+      }
+
+      // Chart functionality
+      const canvas = document.getElementById('rewardChart');
+      const tooltip = document.getElementById('chartTooltip');
+      
+      if (!canvas || !tooltip) return;
+      
+      const ctx = canvas.getContext('2d');
+      let w, h;
+      
+      function resizeCanvas() {
+        w = canvas.clientWidth;
+        h = 320;
+        canvas.width = w;
+        canvas.height = h;
+        drawChart();
+      }
+      
+      function drawChart() {
+        ctx.clearRect(0, 0, w, h);
+        
+        const pad = { left: 70, right: 30, top: 20, bottom: 50 };
+        const gw = w - pad.left - pad.right;
+        const gh = h - pad.top - pad.bottom;
+        
+        // Grid
+        ctx.strokeStyle = "#555";
+        ctx.lineWidth = 0.5;
+        for (let i = 0; i <= 5; i++) {
+          let y = pad.top + (i / 5) * gh;
+          ctx.beginPath();
+          ctx.moveTo(pad.left, y);
+          ctx.lineTo(w - pad.right, y);
+          ctx.stroke();
+        }
+        
+        // Bitcoin linear (dashed)
+        ctx.strokeStyle = "#aaaaaa";
+        ctx.lineWidth = 2.5;
+        ctx.setLineDash([6, 4]);
         ctx.beginPath();
-        ctx.moveTo(pad.left, y);
-        ctx.lineTo(w - pad.right, y);
+        for (let x = 1; x <= 100; x++) {
+          let dx = pad.left + (x / 100) * gw;
+          let dy = h - pad.bottom - (x / 100) * gh;
+          if (x === 1) ctx.moveTo(dx, dy);
+          else ctx.lineTo(dx, dy);
+        }
         ctx.stroke();
+        
+        // ACCUM logarithmic (green)
+        ctx.strokeStyle = "#4caf50";
+        ctx.lineWidth = 3.5;
+        ctx.setLineDash([]);
+        ctx.beginPath();
+        const maxLog = Math.log2(101);
+        for (let x = 1; x <= 100; x++) {
+          let val = Math.log2(1 + x) / maxLog;
+          let dx = pad.left + (x / 100) * gw;
+          let dy = h - pad.bottom - val * gh;
+          if (x === 1) ctx.moveTo(dx, dy);
+          else ctx.lineTo(dx, dy);
+        }
+        ctx.stroke();
+        
+        // Axis labels
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "14px Arial";
+        
+        // X axis
+        ctx.textAlign = "center";
+        const xLabel = document.querySelector('[data-en="Hashrate share (%)"]')?.textContent || "Hashrate share (%)";
+        ctx.fillText(xLabel, w / 2, h - 15);
+        
+        // Y axis (rotated)
+        ctx.save();
+        ctx.translate(25, h / 2);
+        ctx.rotate(-Math.PI / 2);
+        ctx.textAlign = "center";
+        const yLabel = document.querySelector('[data-en="Reward share (%)"]')?.textContent || "Reward share (%)";
+        ctx.fillText(yLabel, 0, 0);
+        ctx.restore();
+        
+        // Legend
+        ctx.fillStyle = "#4caf50";
+        ctx.fillRect(w - 130, pad.top + 5, 14, 14);
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "12px Arial";
+        ctx.textAlign = "left";
+        ctx.fillText("ACCUM (log)", w - 110, pad.top + 17);
+        
+        ctx.fillStyle = "#aaaaaa";
+        ctx.fillRect(w - 130, pad.top + 30, 14, 14);
+        ctx.fillStyle = "#ffffff";
+        ctx.fillText("Bitcoin (linear)", w - 110, pad.top + 42);
       }
       
-      // Bitcoin linear (dashed)
-      ctx.strokeStyle = "#aaaaaa";
-      ctx.lineWidth = 2.5;
-      ctx.setLineDash([6, 4]);
-      ctx.beginPath();
-      for (let x = 1; x <= 100; x++) {
-        let dx = pad.left + (x / 100) * gw;
-        let dy = h - pad.bottom - (x / 100) * gh;
-        if (x === 1) ctx.moveTo(dx, dy);
-        else ctx.lineTo(dx, dy);
+      function handleMouseMove(e) {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        
+        const mouseX = (e.clientX - rect.left) * scaleX;
+        const mouseY = (e.clientY - rect.top) * scaleY;
+        
+        const pad = { left: 70, right: 30, top: 20, bottom: 50 };
+        const gw = canvas.width - pad.left - pad.right;
+        const gh = canvas.height - pad.top - pad.bottom;
+        
+        if (mouseX >= pad.left && mouseX <= canvas.width - pad.right &&
+            mouseY >= pad.top && mouseY <= canvas.height - pad.bottom) {
+          
+          const share = (mouseX - pad.left) / gw * 100;
+          const clampedShare = Math.min(100, Math.max(0, share));
+          
+          const linearReward = clampedShare;
+          const logReward = Math.log2(1 + clampedShare) / Math.log2(101) * 100;
+          
+          tooltip.style.opacity = '1';
+          tooltip.style.left = (e.clientX - rect.left + 15) + 'px';
+          tooltip.style.top = (e.clientY - rect.top - 40) + 'px';
+          
+          const lang = document.querySelector('.lang-btn.active')?.dataset.lang || 'en';
+          if (lang === 'ru') {
+            tooltip.innerHTML = `
+              <strong>Доля хешрейта: ${clampedShare.toFixed(1)}%</strong><br>
+              <span style="color:#aaaaaa;">Bitcoin: ${linearReward.toFixed(1)}%</span><br>
+              <span style="color:#4caf50;">ACCUM: ${logReward.toFixed(1)}%</span>
+            `;
+          } else {
+            tooltip.innerHTML = `
+              <strong>Hashrate share: ${clampedShare.toFixed(1)}%</strong><br>
+              <span style="color:#aaaaaa;">Bitcoin: ${linearReward.toFixed(1)}%</span><br>
+              <span style="color:#4caf50;">ACCUM: ${logReward.toFixed(1)}%</span>
+            `;
+          }
+        } else {
+          tooltip.style.opacity = '0';
+        }
       }
-      ctx.stroke();
       
-      // ACCUM logarithmic (green)
-      ctx.strokeStyle = "#4caf50";
-      ctx.lineWidth = 3.5;
-      ctx.setLineDash([]);
-      ctx.beginPath();
-      const maxLog = Math.log2(101);
-      for (let x = 1; x <= 100; x++) {
-        let val = Math.log2(1 + x) / maxLog;
-        let dx = pad.left + (x / 100) * gw;
-        let dy = h - pad.bottom - val * gh;
-        if (x === 1) ctx.moveTo(dx, dy);
-        else ctx.lineTo(dx, dy);
-      }
-      ctx.stroke();
-      
-      // Legend
-      ctx.fillStyle = "#4caf50";
-      ctx.fillRect(w - 130, pad.top + 5, 14, 14);
-      ctx.fillStyle = "#ffffff";
-      ctx.font = "12px Arial";
-      ctx.textAlign = "left";
-      ctx.fillText("ACCUM (log)", w - 110, pad.top + 17);
-      
-      ctx.fillStyle = "#aaaaaa";
-      ctx.fillRect(w - 130, pad.top + 30, 14, 14);
-      ctx.fillStyle = "#ffffff";
-      ctx.fillText("Bitcoin (linear)", w - 110, pad.top + 42);
-    }
-    
-    function handleMouseMove(e) {
-      const rect = canvas.getBoundingClientRect();
-      const scaleX = canvas.width / rect.width;
-      const scaleY = canvas.height / rect.height;
-      
-      const mouseX = (e.clientX - rect.left) * scaleX;
-      const mouseY = (e.clientY - rect.top) * scaleY;
-      
-      const pad = { left: 60, right: 20, top: 20, bottom: 30 };
-      const gw = canvas.width - pad.left - pad.right;
-      const gh = canvas.height - pad.top - pad.bottom;
-      
-      if (mouseX >= pad.left && mouseX <= canvas.width - pad.right &&
-          mouseY >= pad.top && mouseY <= canvas.height - pad.bottom) {
-        
-        const share = (mouseX - pad.left) / gw * 100;
-        const clampedShare = Math.min(100, Math.max(0, share));
-        
-        const linearReward = clampedShare;
-        const logReward = Math.log2(1 + clampedShare) / Math.log2(101) * 100;
-        
-        tooltip.style.opacity = '1';
-        tooltip.style.left = (e.clientX - rect.left + 15) + 'px';
-        tooltip.style.top = (e.clientY - rect.top - 40) + 'px';
-        tooltip.innerHTML = `
-          <strong>Hashrate share: ${clampedShare.toFixed(1)}%</strong><br>
-          <span style="color:#aaaaaa;">Bitcoin: ${linearReward.toFixed(1)}%</span><br>
-          <span style="color:#4caf50;">ACCUM: ${logReward.toFixed(1)}%</span>
-        `;
-      } else {
+      canvas.addEventListener('mousemove', handleMouseMove);
+      canvas.addEventListener('mouseleave', () => {
         tooltip.style.opacity = '0';
-      }
-    }
-    
-    canvas.addEventListener('mousemove', handleMouseMove);
-    canvas.addEventListener('mouseleave', () => {
-      tooltip.style.opacity = '0';
-    });
-    
-    window.addEventListener('load', resizeCanvas);
-    window.addEventListener('resize', resizeCanvas);
-  })();
-</script>
-    
+      });
+      
+      window.addEventListener('load', resizeCanvas);
+      window.addEventListener('resize', resizeCanvas);
+      
+      // Network stats updater (simulated)
+      setInterval(() => {
+        // This would normally fetch from an API, but for demo we'll just increment occasionally
+        if (Math.random() > 0.7) {
+          const blocksEl = document.querySelector('[data-net-blocks]');
+          const txEl = document.querySelector('[data-net-tx]');
+          if (blocksEl && txEl) {
+            blocksEl.textContent = parseInt(blocksEl.textContent) + 1;
+            if (Math.random() > 0.5) {
+              txEl.textContent = parseInt(txEl.textContent) + 1;
+            }
+          }
+        }
+      }, 30000);
+    })();
+  </script>
 </body>
 </html>
